@@ -1,0 +1,39 @@
+#lang racket
+
+(require "world/world.rkt")
+(require "world/world_constants.rkt")
+(require "io_adapter.rkt")
+(require "io/input.rkt")
+(require math/number-theory)
+
+
+(define (timed-loop time fn)
+  (thread
+    (lambda ()
+      (timed-loop-thread-body time fn))))
+(define (timed-loop-thread-body time fn)
+  (define start (current-milliseconds))
+  (fn)
+  (define end (current-milliseconds))
+  (define del (/ (- time (- end start)) 1000))
+  (when (> del 0.0001)
+    (sleep del))
+  (timed-loop time fn))
+
+(define (game)
+  (define world (make-world 50 25))
+  (timed-loop 30
+    (lambda ()
+      (draw-world world)))
+  (timed-loop 100
+    (lambda ()
+      (update-world world)))
+  (start-input-loop world))
+
+;; Start
+(fix-screen)
+(with-handlers ([exn:break?  (lambda (exn)
+                                (fix-screen))])
+  (game)
+  (sleep 100))
+
