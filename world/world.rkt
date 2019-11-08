@@ -14,10 +14,10 @@
 (define (make-world width height)
   (define wo (world (make-vector
                       (* width height)
-                      DFT)
+                      TILE_WATER)
                     (make-vector
-                     (* width height)
-                     TILE_WATER)
+                      (* width height)
+                      DFT)
                     ""                  ; Status
                     (list)
                     width height
