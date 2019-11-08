@@ -36,5 +36,11 @@
                    TILE_GRASS)))
   world)
 
+(define (check-unit-hover world)
+  (for ([u (world-units world)])
+    (when (and (= (world-cur-x world) (unit-x u))
+               (= (world-cur-y world) (unit-y u)))
+      (set-world-status! world "Hover"))))
 (define (update-world world)
+  (check-unit-hover world)
   (void))

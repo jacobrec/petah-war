@@ -47,7 +47,9 @@ the rendering io code. It serves
   (draw-buffer sb)
   (reset-color)
   (displayln (world-status world))
-  (move-to (world-cur-x world) (world-cur-y world))
+  (move-to
+    (+ 1 (world-cur-x world)) ; Cursors are weird
+    (world-cur-y world))
   (flush-output))
 
 (define (fix-screen)
