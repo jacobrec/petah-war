@@ -17,4 +17,5 @@
 (define TILE_WATER 1)
 (define TILE_MOUNTAIN 2)
 (define TILE_FOREST 3)
+(define TILE_ROAD 4)
 

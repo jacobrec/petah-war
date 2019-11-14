@@ -23,7 +23,8 @@ the rendering io code. It serves
     [(= tile TILE_GRASS) (cell DFT GRN #\")]
     [(= tile TILE_FOREST) (cell BLK GRN #\%)]
     [(= tile TILE_WATER) (cell DFT BLU #\~)]
-    [(= tile TILE_MOUNTAIN) (cell DFT BLK #\^)]))
+    [(= tile TILE_MOUNTAIN) (cell DFT BLK #\^)]
+    [(= tile TILE_ROAD) (cell DFT YEL #\.)]))
 
 (define (draw-world world)
   ;; Set Buffer data from map
