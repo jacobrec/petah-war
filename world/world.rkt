@@ -5,7 +5,6 @@
 (require "terrain.rkt")
 (provide (all-defined-out))
 
-(struct selection (item))
 (struct world (grid
                bg-overlay
                status
@@ -85,7 +84,6 @@
                                  (* (world-width world)
                                     (world-height world))
                                  DFT))
-
   (if (and
         (world-selection world)
         (unit? (world-selection world)))
