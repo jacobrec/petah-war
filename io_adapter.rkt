@@ -43,13 +43,14 @@ the rendering io code. It serves
       BLK RED
       (unit-type u)))
 
-
+  (cursor-set #f)
   (draw-buffer sb)
   (reset-color)
   (displayln (world-status world))
   (move-to
     (+ 1 (world-cur-x world)) ; Cursors are weird
     (world-cur-y world))
+  (cursor-set #t)
   (flush-output))
 
 (define (fix-screen)
