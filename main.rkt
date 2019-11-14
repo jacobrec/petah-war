@@ -4,7 +4,6 @@
 (require "world/world_constants.rkt")
 (require "io_adapter.rkt")
 (require "io/input.rkt")
-(require math/number-theory)
 
 
 (define (timed-loop time fn)

@@ -5,6 +5,6 @@
 
 (define (unit-range unit)
   (cond
-    [(char=? #\%) 3]))
+    [(char=? #\%) 5]))
 
 

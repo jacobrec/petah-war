@@ -21,19 +21,24 @@ the rendering io code. It serves
 (define (get-cell-from-tiletype tile)
   (cond
     [(= tile TILE_GRASS) (cell DFT GRN #\")]
-    [(= tile TILE_WATER) (cell DFT BLU #\~)]))
+    [(= tile TILE_WATER) (cell DFT BLU #\~)]
+    [(= tile TILE_MOUNTAIN) (cell DFT BLK #\^)]))
 
 (define (draw-world world)
   ;; Set Buffer data from map
   (for [(y (range (world-height world)))]
     (for [(x (range (world-width world)))]
+      (define bg-overlay (vector-ref
+                           (world-bg-overlay world)
+                           (+ x (* y (world-width world)))))
       (define cell (get-cell-from-tiletype
                      (vector-ref
                        (world-grid world)
                        (+ x (* y (world-width world))))))
-      (screen-buffer-set-pixel! sb
-        x y
-        (cell-fg cell) (cell-bg cell)
+      (screen-buffer-set-pixel! sb x y
+        (cell-fg cell) (if (= DFT bg-overlay)
+                         (cell-bg cell)
+                         bg-overlay)
         (cell-char cell))))
 
   ;; Set Buffer data from movables
@@ -42,7 +47,6 @@ the rendering io code. It serves
       (unit-x u) (unit-y u)
       BLK RED
       (unit-type u)))
-
 
   (draw-buffer sb)
   (reset-color)
