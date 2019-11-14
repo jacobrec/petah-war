@@ -30,9 +30,9 @@
   (start-input-loop world))
 
 ;; Start
-(fix-screen)
+(start-screen)
 (with-handlers ([exn:break?  (lambda (exn)
-                                (fix-screen))])
+                                (end-screen))])
   (game)
   (sleep 100))
 
