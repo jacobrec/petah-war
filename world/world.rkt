@@ -9,6 +9,7 @@
                bg-overlay
                status
                units
+               buildings
                width height
                cur-x cur-y) #:mutable)
 
@@ -20,6 +21,7 @@
                       (* width height)
                       DFT)
                     ""                  ; Status
+                    (list)
                     (list)
                     width height
                     0 0))               ; cur-x cur-y
