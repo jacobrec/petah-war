@@ -40,7 +40,15 @@
   (for ([u (world-units world)])
     (when (and (= (world-cur-x world) (unit-x u))
                (= (world-cur-y world) (unit-y u)))
-      (set-world-status! world "Hover"))))
+      (set-world-status! world
+                         (string-append "Hover: "
+                                        (number->string (unit-range u)))))))
+(define (set-move-overlay world unit)
+  (define d (unit-range unit))
+  (void))
+
+
+
 (define (update-world world)
   (check-unit-hover world)
   (void))
