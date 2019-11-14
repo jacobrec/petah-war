@@ -28,15 +28,32 @@
 (define (temp-setup w)
   (set-world-units! w (list (unit 25 10 #\%)))
   (temp-add-island w)
-  (temp-add-mountain w 27 11)
-  (temp-add-mountain w 26 13)
-  (temp-add-mountain w 25 11)
-  (temp-add-mountain w 26 12))
+  (temp-add-tile-set w
+                 '((27 . 11)
+                   (28 . 11)
+                   (28 . 12)
+                   (29 . 12)
+                   (29 . 13)
+                   (26 . 10))
+                 TILE_MOUNTAIN)
+  (temp-add-tile-set w
+                 '((24 . 11)
+                   (23 . 11)
+                   (23 . 12)
+                   (22 . 12)
+                   (22 . 13)
+                   (24 . 10))
+                 TILE_FOREST))
 
-(define (temp-add-mountain world x y)
+(define (temp-add-tile-set world items tile)
+  (for ([item items])
+    (temp-add-tile world (car item) (cdr item) tile))
+  world)
+
+(define (temp-add-tile world x y tile)
   (vector-set! (world-grid world)
                (+ x (* y (world-width world)))
-               TILE_MOUNTAIN)
+               tile)
   world)
 
 (define (temp-add-island world)
@@ -65,7 +82,7 @@
   (define (fill x y range)
     (when (and (> range 0)
             (< x w) (< y h) (>= x 0) (>= y 0))
-      (vector-set! overlay (access x y) BLU)
+      (vector-set! overlay (access x y) MAG)
       (define (next x y)
         (fill x y
               (- range

@@ -21,6 +21,7 @@ the rendering io code. It serves
 (define (get-cell-from-tiletype tile)
   (cond
     [(= tile TILE_GRASS) (cell DFT GRN #\")]
+    [(= tile TILE_FOREST) (cell BLK GRN #\%)]
     [(= tile TILE_WATER) (cell DFT BLU #\~)]
     [(= tile TILE_MOUNTAIN) (cell DFT BLK #\^)]))
 

@@ -5,4 +5,5 @@
 
 (define (terrain-movement-usage unit tile)
   (cond [(= tile TILE_MOUNTAIN) 3]
+        [(= tile TILE_FOREST) 2]
         [else 1]))
