@@ -129,5 +129,4 @@
 
 
 (define (update-world world)
-  (check-unit-hover world)
-  (void))
+  (check-unit-hover world))
