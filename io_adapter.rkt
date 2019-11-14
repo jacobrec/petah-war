@@ -46,6 +46,7 @@ the rendering io code. It serves
   (cursor-set #f)
   (draw-buffer sb)
   (reset-color)
+  (clear-line)
   (displayln (world-status world))
   (move-to
     (+ 1 (world-cur-x world)) ; Cursors are weird

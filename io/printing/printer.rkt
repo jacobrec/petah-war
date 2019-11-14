@@ -39,6 +39,9 @@
 (define (restore-cursor)
   (printf "~c[u" ESC))
 
+(define (clear-line)
+  (printf "~c[2K" ESC))
+
 (define (draw-buffer buf)
   (define cfg 8)
   (define cbg 8)
