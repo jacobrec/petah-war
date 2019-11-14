@@ -4,6 +4,7 @@
 (provide (all-defined-out))
 
 (define (terrain-movement-usage unit tile)
-  (cond [(= tile TILE_MOUNTAIN) 3]
-        [(= tile TILE_FOREST) 2]
-        [else 1]))
+  (cond [(= tile TILE_MOUNTAIN) 6]
+        [(= tile TILE_FOREST) 4]
+        [(= tile TILE_ROAD) 1]
+        [else 2]))
