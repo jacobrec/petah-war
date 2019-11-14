@@ -5,11 +5,13 @@
 (require "terrain.rkt")
 (provide (all-defined-out))
 
+(struct selection (item))
 (struct world (grid
                bg-overlay
                status
                units
                width height
+               selection
                cur-x cur-y) #:mutable)
 
 (define (make-world width height)
@@ -22,6 +24,7 @@
                     ""                  ; Status
                     (list)
                     width height
+                    #f
                     0 0))               ; cur-x cur-y
   (temp-setup wo))
 
@@ -82,11 +85,16 @@
                                  (* (world-width world)
                                     (world-height world))
                                  DFT))
-  (for ([u (world-units world)])
-    (when (and (= (world-cur-x world) (unit-x u))
-               (= (world-cur-y world) (unit-y u)))
-      (set-move-overlay world u))))
-(define (set-move-overlay world unit)
+
+  (if (and
+        (world-selection world)
+        (unit? (world-selection world)))
+      (set-move-overlay world (world-selection world) CYN)
+      (for ([u (world-units world)])
+        (when (and (= (world-cur-x world) (unit-x u))
+                   (= (world-cur-y world) (unit-y u)))
+          (set-move-overlay world u MAG)))))
+(define (set-move-overlay world unit color)
   (define d (unit-range unit))
   (define h (world-height world))
   (define w (world-width world))
@@ -95,7 +103,7 @@
   (define (fill x y range)
     (when (and (>= range 0)
             (< x w) (< y h) (>= x 0) (>= y 0))
-      (vector-set! overlay (access x y) MAG)
+      (vector-set! overlay (access x y) color)
       (define (next x y)
         (when (and (> range 0)
                 (< x w) (< y h) (>= x 0) (>= y 0))
