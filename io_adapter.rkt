@@ -96,7 +96,7 @@ the rendering io code. It serves
     [(#\j) (move-cursor world 0 1)]
     [(#\k) (move-cursor world 0 -1)]
     [(#\l) (move-cursor world 1 0)]
-    [(#\space #\return) (set-world-status! world "Selected")]
+    [(#\space #\return) (do-selection world)]
     [else (set-world-status! world "Not a keybinding")]))
 
 (define (move-cursor world x y)

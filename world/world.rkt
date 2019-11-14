@@ -10,6 +10,7 @@
                status
                units
                width height
+               selection
                cur-x cur-y) #:mutable)
 
 (define (make-world width height)
@@ -22,6 +23,7 @@
                     ""                  ; Status
                     (list)
                     width height
+                    #f
                     0 0))               ; cur-x cur-y
   (temp-setup wo))
 
@@ -82,20 +84,24 @@
                                  (* (world-width world)
                                     (world-height world))
                                  DFT))
-  (for ([u (world-units world)])
-    (when (and (= (world-cur-x world) (unit-x u))
-               (= (world-cur-y world) (unit-y u)))
-      (set-move-overlay world u))))
-(define (set-move-overlay world unit)
+  (if (and
+        (world-selection world)
+        (unit? (world-selection world)))
+      (set-move-overlay world (world-selection world) CYN)
+      (for ([u (world-units world)])
+        (when (and (= (world-cur-x world) (unit-x u))
+                   (= (world-cur-y world) (unit-y u)))
+          (set-move-overlay world u MAG)))))
+(define (set-move-overlay world unit color)
   (define d (unit-range unit))
   (define h (world-height world))
   (define w (world-width world))
   (define overlay (world-bg-overlay world))
   (define (access x y) (+ x (* w y)))
   (define (fill x y range)
-    (when (and (> range 0)
+    (when (and (>= range 0)
             (< x w) (< y h) (>= x 0) (>= y 0))
-      (vector-set! overlay (access x y) MAG)
+      (vector-set! overlay (access x y) color)
       (define (next x y)
         (when (and (> range 0)
                 (< x w) (< y h) (>= x 0) (>= y 0))
@@ -110,12 +116,17 @@
       (next x (+ 1 y))))
   (fill (unit-x unit)
         (unit-y unit)
-        (unit-range unit))
+        (unit-range unit)))
 
-  (void))
-
+(define (do-selection world)
+  (define selected #f)
+  (for ([u (world-units world)])
+    (when (and (not selected)
+               (= (world-cur-x world) (unit-x u))
+               (= (world-cur-y world) (unit-y u)))
+      (set-world-selection! world u)
+      (set! selected #t))))
 
 
 (define (update-world world)
-  (check-unit-hover world)
-  (void))
+  (check-unit-hover world))
