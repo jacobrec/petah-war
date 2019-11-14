@@ -26,6 +26,20 @@ the rendering io code. It serves
     [(= tile TILE_MOUNTAIN) (cell DFT BLK #\^)]
     [(= tile TILE_ROAD) (cell DFT YEL #\.)]))
 
+(define (get-cell-from-unittype unit team)
+  (define bg team)
+  (cond
+    [(= unit UNIT_INFANTRY) (cell DFT bg #\I)]
+    [(= unit UNIT_TANK) (cell DFT bg #\T)]
+
+    [(= unit UNIT_DESTROYER) (cell DFT bg #\D)]
+    [(= unit UNIT_BATTLESHIP) (cell BLK bg #\S)]
+    [(= unit UNIT_FERRY) (cell DFT bg #\F)]
+
+    [(= unit UNIT_PLANE) (cell DFT bg #\P)]
+    [(= unit UNIT_BOMBER) (cell DFT bg #\B)]
+    [(= unit UNIT_HELICOPTER) (cell DFT bg #\H)]))
+
 (define (draw-world world)
   ;; Set Buffer data from map
   (for [(y (range (world-height world)))]
@@ -45,10 +59,11 @@ the rendering io code. It serves
 
   ;; Set Buffer data from movables
   (for ([u (world-units world)])
+    (define cell (get-cell-from-unittype (unit-type u) RED))
     (screen-buffer-set-pixel! sb
       (unit-x u) (unit-y u)
-      BLK RED
-      (unit-type u)))
+      (cell-fg cell) (cell-bg cell)
+      (cell-char cell)))
 
   (cursor-set #f)
   (draw-buffer sb)

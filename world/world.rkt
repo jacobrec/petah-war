@@ -26,10 +26,11 @@
   (temp-setup wo))
 
 (define (temp-setup w)
-  (set-world-units! w (list (unit 25 11 #\I)
-                            (unit 25 12 #\T)
-                            (unit 25 10 #\P)
-                            (unit 25 9 #\B)))
+  (set-world-units! w (list (unit 25 11 UNIT_INFANTRY)
+                            (unit 25 12 UNIT_TANK)
+                            (unit 25 10 UNIT_PLANE)
+                            (unit 8 6 UNIT_FERRY)
+                            (unit 3 2 UNIT_DESTROYER)))
   (temp-add-island w)
   (temp-add-tile-set w
                  '((26 . 11)
@@ -96,11 +97,13 @@
             (< x w) (< y h) (>= x 0) (>= y 0))
       (vector-set! overlay (access x y) MAG)
       (define (next x y)
-        (fill x y
-              (- range
-                 (terrain-movement-usage
-                   unit
-                   (vector-ref (world-grid world) (access x y))))))
+        (when (and (> range 0)
+                (< x w) (< y h) (>= x 0) (>= y 0))
+            (fill x y
+                  (- range
+                     (terrain-movement-usage
+                       (unit-type unit)
+                       (vector-ref (world-grid world) (access x y)))))))
       (next (- x 1) y)
       (next (+ 1 x) y)
       (next x (- y 1))

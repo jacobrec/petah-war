@@ -19,3 +19,12 @@
 (define TILE_FOREST 3)
 (define TILE_ROAD 4)
 
+(define UNIT_INFANTRY 0)  ; Land unit, can take bases, is cheap
+(define UNIT_TANK 1)      ; Land unit, powerful
+(define UNIT_PLANE 2)     ; Air unit, powerful
+(define UNIT_HELICOPTER 3); Air unit, carries infantry
+(define UNIT_BOMBER 4)    ; Air unit, attacks land units
+(define UNIT_DESTROYER 5) ; Sea unit, powerful
+(define UNIT_BATTLESHIP 6); Sea unit, long range, moves slow, attacks any units
+(define UNIT_FERRY 7)     ; Sea unit, carries infantry and tanks
+;; Costs AIR > SEA > LAND
