@@ -93,7 +93,7 @@
   (define overlay (world-bg-overlay world))
   (define (access x y) (+ x (* w y)))
   (define (fill x y range)
-    (when (and (> range 0)
+    (when (and (>= range 0)
             (< x w) (< y h) (>= x 0) (>= y 0))
       (vector-set! overlay (access x y) MAG)
       (define (next x y)
