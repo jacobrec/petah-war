@@ -116,10 +116,16 @@
       (next x (+ 1 y))))
   (fill (unit-x unit)
         (unit-y unit)
-        (unit-range unit))
+        (unit-range unit)))
 
-  (void))
-
+(define (do-selection world)
+  (define selected #f)
+  (for ([u (world-units world)])
+    (when (and (not selected)
+               (= (world-cur-x world) (unit-x u))
+               (= (world-cur-y world) (unit-y u)))
+      (set-world-selection! world u)
+      (set! selected #t))))
 
 
 (define (update-world world)
