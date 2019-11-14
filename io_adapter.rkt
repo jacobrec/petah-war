@@ -101,6 +101,7 @@ the rendering io code. It serves
     [(#\j) (move-cursor world 0 1)]
     [(#\k) (move-cursor world 0 -1)]
     [(#\l) (move-cursor world 1 0)]
+    [(#\tab) (incmenu world)]
     [(#\space #\return) (set-world-status! world "Selected")]
     [else (set-world-status! world "Not a keybinding")]))
 

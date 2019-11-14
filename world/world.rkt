@@ -31,6 +31,8 @@
   (temp-setup wo))
 
 (define (temp-setup w)
+  (set-world-menu! w '("peter" "jacob" "chris" "arun"))
+  (set-world-menuidx! w 0)
   (set-world-units! w (list (unit 25 11 UNIT_INFANTRY)
                             (unit 25 12 UNIT_TANK)
                             (unit 25 10 UNIT_PLANE)
@@ -124,3 +126,10 @@
 (define (update-world world)
   (check-unit-hover world)
   (void))
+
+(define (incmenu world)
+    (define menu (world-menu world))
+    (when menu
+      (set-world-menuidx!
+        world (modulo (add1 (world-menuidx world))
+                      (length menu)))))
