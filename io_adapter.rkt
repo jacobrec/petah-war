@@ -48,24 +48,33 @@ the rendering io code. It serves
       BLK RED
       (unit-type u)))
 
+  (cursor-set #f)
   (draw-buffer sb)
   (reset-color)
+  (clear-line)
   (displayln (world-status world))
   (move-to
     (+ 1 (world-cur-x world)) ; Cursors are weird
     (world-cur-y world))
+  (cursor-set #t)
   (flush-output))
 
-(define (fix-screen)
+(define (start-screen)
+  (save-cursor)
+  (alternate-screen #t)
   (reset-color)
-  (displayln "")
   (clear-screen))
+
+(define (end-screen)
+  (alternate-screen #f)
+  (reset-color)
+  (restore-cursor))
 
 ;;;; Input
 (define (do-input world)
   (case (read-char)
     [(#f)  (set-world-status! world "No Key")]
-    [(#\q) (begin (stty "sane") (clear-screen) (exit))]
+    [(#\q) (begin (stty "sane") (end-screen) (exit))]
     [(#\h) (move-cursor world -1 0)]
     [(#\j) (move-cursor world 0 1)]
     [(#\k) (move-cursor world 0 -1)]
