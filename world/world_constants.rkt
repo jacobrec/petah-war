@@ -15,4 +15,5 @@
 
 (define TILE_GRASS 0)
 (define TILE_WATER 1)
+(define TILE_MOUNTAIN 2)
 

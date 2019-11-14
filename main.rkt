@@ -4,7 +4,6 @@
 (require "world/world_constants.rkt")
 (require "io_adapter.rkt")
 (require "io/input.rkt")
-(require math/number-theory)
 
 
 (define (timed-loop time fn)
@@ -31,9 +30,9 @@
   (start-input-loop world))
 
 ;; Start
-(fix-screen)
+(start-screen)
 (with-handlers ([exn:break?  (lambda (exn)
-                                (fix-screen))])
+                                (end-screen))])
   (game)
   (sleep 100))
 

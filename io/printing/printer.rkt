@@ -25,6 +25,23 @@
   (reset-color)
   (printf "~c[H~c[2J" ESC ESC))
 
+(define (cursor-set b)
+  (printf "~c[?25~a" ESC
+          (if b "h" "l")))
+
+(define (alternate-screen b)
+  (printf "~c[?1047~a" ESC
+          (if b "h" "l")))
+
+(define (save-cursor)
+  (printf "~c[s" ESC))
+
+(define (restore-cursor)
+  (printf "~c[u" ESC))
+
+(define (clear-line)
+  (printf "~c[2K" ESC))
+
 (define (draw-buffer buf)
   (define cfg 8)
   (define cbg 8)

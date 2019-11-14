@@ -21,19 +21,24 @@ the rendering io code. It serves
 (define (get-cell-from-tiletype tile)
   (cond
     [(= tile TILE_GRASS) (cell DFT GRN #\")]
-    [(= tile TILE_WATER) (cell DFT BLU #\~)]))
+    [(= tile TILE_WATER) (cell DFT BLU #\~)]
+    [(= tile TILE_MOUNTAIN) (cell DFT BLK #\^)]))
 
 (define (draw-world world)
   ;; Set Buffer data from map
   (for [(y (range (world-height world)))]
     (for [(x (range (world-width world)))]
+      (define bg-overlay (vector-ref
+                           (world-bg-overlay world)
+                           (+ x (* y (world-width world)))))
       (define cell (get-cell-from-tiletype
                      (vector-ref
                        (world-grid world)
                        (+ x (* y (world-width world))))))
-      (screen-buffer-set-pixel! sb
-        x y
-        (cell-fg cell) (cell-bg cell)
+      (screen-buffer-set-pixel! sb x y
+        (cell-fg cell) (if (= DFT bg-overlay)
+                         (cell-bg cell)
+                         bg-overlay)
         (cell-char cell))))
 
   ;; Set Buffer data from movables
@@ -43,25 +48,33 @@ the rendering io code. It serves
       BLK RED
       (unit-type u)))
 
-
+  (cursor-set #f)
   (draw-buffer sb)
   (reset-color)
+  (clear-line)
   (displayln (world-status world))
   (move-to
     (+ 1 (world-cur-x world)) ; Cursors are weird
     (world-cur-y world))
+  (cursor-set #t)
   (flush-output))
 
-(define (fix-screen)
+(define (start-screen)
+  (save-cursor)
+  (alternate-screen #t)
   (reset-color)
-  (displayln "")
   (clear-screen))
+
+(define (end-screen)
+  (alternate-screen #f)
+  (reset-color)
+  (restore-cursor))
 
 ;;;; Input
 (define (do-input world)
   (case (read-char)
     [(#f)  (set-world-status! world "No Key")]
-    [(#\q) (begin (stty "sane") (clear-screen) (exit))]
+    [(#\q) (begin (stty "sane") (end-screen) (exit))]
     [(#\h) (move-cursor world -1 0)]
     [(#\j) (move-cursor world 0 1)]
     [(#\k) (move-cursor world 0 -1)]
