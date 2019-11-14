@@ -8,6 +8,8 @@
 (struct world (grid
                bg-overlay
                status
+               menu
+               menuidx
                units
                buildings
                width height
@@ -21,6 +23,7 @@
                       (* width height)
                       DFT)
                     ""                  ; Status
+                    #f 0
                     (list)
                     (list)
                     width height
