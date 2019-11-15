@@ -7,7 +7,7 @@
 (define socket-name-chars "abcdefghijklmnopqrstuvwxy0123456789")
 (define gamedir "/tmp/petah-war")
 
-(define (generate-id [len 8])
+(define (generate-id [len 3])
   (apply string
          (map
            (lambda (_)
