@@ -1,6 +1,18 @@
 #lang racket
 (provide (all-defined-out))
 
+(struct world (grid
+               bg-overlay
+               status
+               menu
+               menuidx
+               units
+               buildings
+               width height
+               selection
+               state
+               cur-x cur-y) #:mutable)
+
 (define BLK 0)
 (define RED 1)
 (define GRN 2)

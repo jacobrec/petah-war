@@ -35,4 +35,10 @@
     [else #f]))
 
 (define (unit-do world unit option)
+  (define x (world-cur-x world))
+  (define y (world-cur-y world))
+  (when (= option 1)
+    (set-unit-has-moved! unit #t)
+    (set-unit-x! unit x)
+    (set-unit-y! unit y))
   #f)
