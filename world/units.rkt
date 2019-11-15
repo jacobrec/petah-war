@@ -66,7 +66,7 @@
     (set-world-directional-select! world 'left)))
   #f)
 
-(define (unit-do-direction unit option)
+(define (unit-do-direction world unit option)
   (define opt (option-menu-pick->option-symbol unit option))
   (set-world-status! world (symbol->string opt))
   (define x (world-cur-x world))

@@ -113,8 +113,8 @@ the rendering io code. It serves
     (define dsx (world-cur-x world))
     (define dsy (world-cur-y world))
     (case (world-directional-select world)
-      [(left) (set! dsx (add1 dsx))]
-      [(right) (set! dsx (sub1 dsx))]
+      [(left) (set! dsx (sub1 dsx))]
+      [(right) (set! dsx (add1 dsx))]
       [(up) (set! dsy (sub1 dsy))]
       [(down) (set! dsy (add1 dsy))]
       [else #f])
@@ -155,7 +155,7 @@ the rendering io code. It serves
   (case c
     [(#f) (set-world-status! world "No Key")]
     [(#\q) (begin (stty "sane") (end-screen) (exit))]
-    [(#\c) (set-world-selection! world #f)]
+    [(#\h #\j #\k #\l) (move-motion world c)]
     [(#\c) (set-world-selection! world #f)
            (set-world-menu! world #f)]
     [(#\e) (brk)]
@@ -177,10 +177,10 @@ the rendering io code. It serves
 
 (define (move-direction world char)
   (case char
-    [(#\h) (set-world-directional-select! world 'right)]
+    [(#\h) (set-world-directional-select! world 'left)]
     [(#\j) (set-world-directional-select! world 'down)]
     [(#\k) (set-world-directional-select! world 'up)]
-    [(#\l) (set-world-directional-select! world 'left)]
+    [(#\l) (set-world-directional-select! world 'right)]
     [else #t]))
 
 (define (move-menu world char)
