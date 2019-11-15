@@ -45,6 +45,6 @@
 (define BUILD_HQ 0)
 (define BUILD_MONEY 1)
 (define BUILD_FACTORY 2)
-(define BUILD_SEAFACTORY 2)
-(define BUILD_COVER 3)
+(define BUILD_SEAFACTORY 3)
+(define BUILD_COVER 4)
 
