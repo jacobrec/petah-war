@@ -80,15 +80,12 @@
   (when (world-menu world)
     (if (unit? (world-selection world))
       (unit-do world (world-selection world) (world-menuidx world))
-      (building-do world (world-selection world) (world-menuidx world)))
-    (set-world-selection! world #f)
-    (set-world-menu! world #f)))
+      (building-do world (world-selection world) (world-menuidx world)))))
 
 (define (do-directional-option world)
   (when (world-menu world)
-    (if (unit? (world-selection world))
-      (unit-do world (world-selection world) (world-menuidx world))
-      (building-do world (world-selection world) (world-menuidx world)))
+    (when (unit? (world-selection world))
+      (unit-do-direction world (world-selection world) (world-menuidx world)))
     (set-world-selection! world #f)
     (set-world-menu! world #f)))
 
