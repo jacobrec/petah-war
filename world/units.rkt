@@ -68,13 +68,20 @@
   (define x (world-cur-x world))
   (define y (world-cur-y world))
   (when (eq? opt 'attack)
+    ; Do attack
     (set-world-status! world (symbol->string (world-directional-select world)))
+
     (set-world-selection! world #f)
     (set-world-menu! world #f)
     (set-world-directional-select! world #f)))
 
+(define (does-kill? unita unitb)
+  (> (kill-probability unita unitb) (random 100)))
 
-
+(define (kill-probability unita unitb)
+  (define ta (unit-type unita))
+  (define tb (unit-type unitb))
+  0.5)
 
 
 
