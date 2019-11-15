@@ -102,6 +102,7 @@ the rendering io code. It serves
     [(#\j) (move-cursor world 0 1)]
     [(#\k) (move-cursor world 0 -1)]
     [(#\l) (move-cursor world 1 0)]
+    [(#\c) (set-world-selection! world #f)]
     [(#\tab) (incmenu world)]
     [(#\return) (do-option world)]
     [(#\space) (do-selection world)]
