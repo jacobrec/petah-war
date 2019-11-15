@@ -13,7 +13,9 @@
 
 (define (receive-turn world in)
   (define data (read-json in))
-  (update-world-state-from-recived world data))
+  (if (eof-object? data)
+    data
+    (update-world-state-from-recived world data)))
 
 (define (get-world-state-to-send world)
   (make-hash `((units . ,(map unit->vector (world-units world)))
@@ -44,6 +46,6 @@
     (start-input-loop world)
     (send-turn world out)
     (set-world-status! world "Waiting for opponent(s)")
-    (receive-turn world in)
-    (loop))
+    (unless (eof-object? (receive-turn world in))
+      (loop)))
   (loop))
