@@ -24,15 +24,15 @@
 (define (unit-options unit)
   (define tunit (unit-type unit))
   (cond
-    [(= tunit UNIT_INFANTRY) '("attack" "wait")]
+    [(= tunit UNIT_INFANTRY) '("attack" "capture" "wait")]
     [(= tunit UNIT_TANK) '("attack" "wait")]
 
     [(= tunit UNIT_PLANE) '("attack" "wait")]
     [(= tunit UNIT_BOMBER) '("attack" "wait")]
-    [(= tunit UNIT_HELICOPTER) '("attack" "wait")]
+    [(= tunit UNIT_HELICOPTER) '("rescue" "drop" "wait")]
 
     [(= tunit UNIT_DESTROYER) '("attack" "wait")]
-    [(= tunit UNIT_FERRY) '("attack" "wait")]
+    [(= tunit UNIT_FERRY) '("rescue" "drop" "wait")]
     [(= tunit UNIT_BATTLESHIP) '("attack" "wait")]
     [else #f]))
 
