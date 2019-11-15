@@ -10,13 +10,16 @@
 
 (define (send-turn world out)
   (write-json (get-world-state-to-send world) out)
-  (flush-output out))
+  (flush-output out)
+  (win-game world))
 
 (define (receive-turn world in)
   (define data (read-json in))
   (if (eof-object? data)
     data
-    (update-world-state-from-recived world data)))
+    (begin
+      (update-world-state-from-recived world data)
+      (win-game world))))
 
 (define (get-world-state-to-send world)
   (make-hash `((units . ,(map unit->vector (world-units world)))
@@ -38,9 +41,47 @@
   (set-world-units! world (map vector->unit (dict-ref data 'units)))
   (set-world-buildings! world (map vector->building (dict-ref data 'buildings))))
 
+(define (all-same lst)
+  (cond
+    [(null? (cdr lst)) (car lst)]
+    [(equal? (car lst) (all-same (cdr lst)))
+     (car lst)]
+    [#t #f]))
+
+(define (win-game world)
+  (define winner
+    (all-same
+      (map
+        building-owner-id
+        (filter
+          (lambda (b)
+            (= (building-type b) BUILD_HQ))
+          (world-buildings world)))))
+  (when winner
+    (end-screen)
+    (if (= winner (world-player-id world))
+      (displayln "YOU WIN!")
+      (displayln "YOU LOSE!"))
+    (exit)))
+
+(define (get-money world)
+  (set-world-money!
+    world
+    (apply + (world-money world)
+           (map (lambda (_) 500)
+                  (filter
+                    (lambda (b)
+                      (and (= (building-type b) BUILD_MONEY)
+                           (= (building-owner-id b) (world-player-id world))))
+                    (world-buildings world))))))
+
+
+
+
 (define (do-game world out in first)
   (define (loop)
     (set-world-status! world "Your Turn!")
+    (get-money world)
     (start-input-loop world)
     (send-turn world out)
     (set-world-status! world "Waiting for opponent(s)")
