@@ -126,21 +126,34 @@ the rendering io code. It serves
 (define (do-input world)
   (define c (read-char))
   (case c
-    [(#f)  (set-world-status! world "No Key")]
+    [(#f) (set-world-status! world "No Key")]
     [(#\q) (begin (stty "sane") (end-screen) (exit))]
-    [(#\h #\j #\k #\l) (move-world world c)]
+    [(#\h #\j #\k #\l) (if (world-menu world)
+                         (move-menu world c)
+                         (move-world world c))]
     [(#\c) (set-world-selection! world #f)]
     [(#\tab) (incmenu world)]
-    [(#\return) (do-option world)]
-    [(#\space) (do-selection world)]
+    [(#\return #\space) (do-option-or-selection world)]
     [else (set-world-status! world "Not a keybinding")]))
+
+(define (do-option-or-selection world)
+  (if (world-menu world)
+      (do-option world)
+      (do-selection world)))
+(define (move-menu world char)
+  (case char
+    [(#\j) (incmenu world)]
+    [(#\k) (decmenu world)]
+    [else #t]))
 
 (define (move-world world char)
   (case char
     [(#\h) (move-cursor world -1 0)]
     [(#\j) (move-cursor world 0 1)]
     [(#\k) (move-cursor world 0 -1)]
-    [(#\l) (move-cursor world 1 0)]))
+    [(#\l) (move-cursor world 1 0)]
+    [else #t]))
+
 (define (move-cursor world x y)
   (set-world-cur-x! world (max 0 (+ x (world-cur-x world))))
   (set-world-cur-y! world (max 0 (+ y (world-cur-y world)))))

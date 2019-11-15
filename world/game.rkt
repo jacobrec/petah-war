@@ -86,10 +86,15 @@
 (define (update-world world)
   (check-unit-hover world))
 
-(define (incmenu world)
-    (define menu (world-menu world))
-    (when menu
-      (set-world-menuidx!
-        world (modulo (add1 (world-menuidx world))
-                      (length menu)))))
+(define (cmenu world fn)
+  (define menu (world-menu world))
+  (when menu
+    (set-world-menuidx!
+      world (modulo (fn (world-menuidx world))
+                    (length menu)))))
 
+(define (incmenu world)
+  (cmenu world add1))
+
+(define (decmenu world)
+  (cmenu world sub1))
