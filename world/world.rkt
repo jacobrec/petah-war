@@ -10,8 +10,8 @@
                buildings
                width height
                selection
-               state
                money
+               player-id
                cur-x cur-y) #:mutable)
 
 (define BLK 0)

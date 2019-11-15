@@ -25,7 +25,7 @@ the rendering io code. It serves
     [(= tile TILE_FOREST) (cell BLK GRN #\%)]
     [(= tile TILE_WATER) (cell DFT BLU #\~)]
     [(= tile TILE_MOUNTAIN) (cell DFT BLK #\^)]
-    [(= tile TILE_ROAD) (cell DFT YEL #\.)]))
+    [(= tile TILE_ROAD) (cell DFT BLK #\╬)]))   ; TODO: make these actually look good
 
 (define (get-cell-from-unittype unit team)
   (define bg team)
@@ -50,8 +50,18 @@ the rendering io code. It serves
     [(= bld BUILD_SEAFACTORY) (cell DFT bg #\#)]
     [(= bld BUILD_COVER) (cell DFT bg #\&)]))
 
+(define (get-color-from-player-id id)
+  (case id
+    ((0) BLK)
+    ((1) RED)
+    ((2) YEL)
+    ((3) GRN)
+    ((4) BLU)))
+
 (define (overlay-unit world u)
-  (define cell (get-cell-from-unittype (unit-type u) RED))
+  (define cell
+    (get-cell-from-unittype (unit-type u)
+                            (get-color-from-player-id (world-player-id world))))
   (define fg (cell-fg cell))
   (define bg (cell-bg cell))
   (define char (cell-char cell))
@@ -85,7 +95,10 @@ the rendering io code. It serves
 
   ;; Set Buffer data from buildings
   (for ([u (world-buildings world)])
-    (define cell (get-cell-from-buildingtype (building-type u) RED))
+    (define cell
+      (get-cell-from-buildingtype
+        (building-type u)
+        (get-color-from-player-id (world-player-id world))))
     (screen-buffer-set-pixel! sb
       (building-x u) (building-y u)
       (cell-fg cell) (cell-bg cell)

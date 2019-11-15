@@ -21,7 +21,7 @@
   (timed-loop time fn))
 
 (define (game)
-  (define world (make-world 50 25))
+  (define world (make-world 50 25 3))
   (timed-loop 30
     (lambda ()
       (draw-world world)))
@@ -32,8 +32,8 @@
 
 ;; Start
 (start-screen)
-(with-handlers ([exn:break?  (lambda (exn)
-                                (end-screen))])
+(with-handlers ([exn:break? (lambda (exn)
+                               (end-screen))])
   (game)
   (sleep 100))
 

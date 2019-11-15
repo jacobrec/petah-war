@@ -6,7 +6,7 @@
 (require "world.rkt")
 (provide make-world)
 
-(define (make-world width height)
+(define (make-world width height id)
   (define wo (world (make-vector
                       (* width height)
                       TILE_WATER)
@@ -19,8 +19,8 @@
                     (list)
                     width height
                     #f
-                    'start ; state
                     3000 ; money
+                    id ; player id
                     0 0))               ; cur-x cur-y
   (temp-setup wo))
 
