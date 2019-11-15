@@ -10,7 +10,7 @@
   (when (>= (world-money world) cost)
     (set-world-money! world (- (world-money world) cost))
     (set-world-units! world
-      (cons (unit x y type)
+      (cons (unit x y type (world-player-id world))
             (world-units world)))))
 
 (define (building-options unit)

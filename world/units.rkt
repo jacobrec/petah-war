@@ -2,7 +2,9 @@
 (require "world.rkt")
 (provide (all-defined-out))
 
-(struct unit (x y type [has-moved #:auto]) #:mutable #:auto-value #f)
+(struct unit
+  (x y type owner-id [has-moved #:auto])
+  #:mutable #:auto-value #f)
 
 (define (unit-range unit)
   (define tunit (unit-type unit))
