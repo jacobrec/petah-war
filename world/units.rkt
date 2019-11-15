@@ -1,5 +1,5 @@
 #lang racket
-(require "world_constants.rkt")
+(require "world.rkt")
 (provide (all-defined-out))
 
 (struct unit (x y type [has-moved #:auto]) #:mutable #:auto-value #f)

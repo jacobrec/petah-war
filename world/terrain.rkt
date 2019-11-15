@@ -1,6 +1,6 @@
 #lang racket
 
-(require "world_constants.rkt")
+(require "world.rkt")
 (provide (all-defined-out))
 
 (define (terrain-movement-usage unit tile)

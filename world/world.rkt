@@ -1,94 +1,48 @@
 #lang racket
-
-(require "world_constants.rkt")
-(require "units.rkt")
-(require "buildings.rkt")
-(require "terrain.rkt")
 (provide (all-defined-out))
 
+(struct world (grid
+               bg-overlay
+               status
+               menu
+               menuidx
+               units
+               buildings
+               width height
+               selection
+               state
+               cur-x cur-y) #:mutable)
 
-(define (check-unit-hover world)
-  (set-world-bg-overlay! world (make-vector
-                                 (* (world-width world)
-                                    (world-height world))
-                                 DFT))
-  (if (and
-        (world-selection world)
-        (unit? (world-selection world)))
-      (set-move-overlay world (world-selection world) CYN)
-      (for ([u (world-units world)])
-        (when (and (= (world-cur-x world) (unit-x u))
-                   (= (world-cur-y world) (unit-y u)))
-          (set-move-overlay world u MAG)))))
-(define (set-move-overlay world unit color)
-  (define d (unit-range unit))
-  (define h (world-height world))
-  (define w (world-width world))
-  (define overlay (world-bg-overlay world))
-  (define (access x y) (+ x (* w y)))
-  (define (fill x y range)
-    (when (and (>= range 0)
-            (< x w) (< y h) (>= x 0) (>= y 0))
-      (vector-set! overlay (access x y) color)
-      (define (next x y)
-        (when (and (> range 0)
-                (< x w) (< y h) (>= x 0) (>= y 0))
-            (fill x y
-                  (- range
-                     (terrain-movement-usage
-                       (unit-type unit)
-                       (vector-ref (world-grid world) (access x y)))))))
-      (next (- x 1) y)
-      (next (+ 1 x) y)
-      (next x (- y 1))
-      (next x (+ 1 y))))
-  (fill (unit-x unit)
-        (unit-y unit)
-        (unit-range unit)))
+(define BLK 0)
+(define RED 1)
+(define GRN 2)
+(define YEL 3)
+(define BLU 4)
+(define MAG 5)
+(define CYN 6)
+(define WHT 7)
+(define DFT 9) ; IDK why/how/if this one works
+(define FG 30)
+(define BG 40)
 
-(define (do-selection world)
-  (define selected #f)
-  (when (and (world-selection world)
-             (unit? (world-selection world)))
-    (define x (world-cur-x world))
-    (define y (world-cur-y world))
-    (define w (world-width world))
-    ; Finish unit movement
-    (when (= CYN (vector-ref (world-bg-overlay world) (+ x (* y w))))
-      (set-world-menu! world (unit-options (world-selection world)))
-      (set-world-menuidx! world 0))
-    (set! selected #t))
-  (for ([u (world-units world)])
-    (when (and (not selected)
-               (not (unit-has-moved u))
-               (= (world-cur-x world) (unit-x u))
-               (= (world-cur-y world) (unit-y u)))
-      (set-world-selection! world u)
-      (set! selected #t)))
-  (for ([u (world-buildings world)])
-    (when (and (not selected)
-               (= (world-cur-x world) (building-x u))
-               (= (world-cur-y world) (building-y u)))
-      (set-world-menu! world (building-options u))
-      (set-world-menuidx! world 0)
-      (set-world-selection! world u)
-      (set! selected #t))))
+(define TILE_GRASS 0)
+(define TILE_WATER 1)
+(define TILE_MOUNTAIN 2)
+(define TILE_FOREST 3)
+(define TILE_ROAD 4)
 
-(define (do-option world)
-  (when (world-menu world)
-    (if (unit? (world-selection world))
-      (unit-do world (world-selection world) (world-menuidx world))
-      (building-do world (world-selection world) (world-menuidx world)))
-    (set-world-selection! world #f)
-    (set-world-menu! world #f)))
+(define UNIT_INFANTRY 0)  ; Land unit, can take bases, is cheap
+(define UNIT_TANK 1)      ; Land unit, powerful
+(define UNIT_PLANE 2)     ; Air unit, powerful
+(define UNIT_HELICOPTER 3); Air unit, carries infantry
+(define UNIT_BOMBER 4)    ; Air unit, attacks land units
+(define UNIT_DESTROYER 5) ; Sea unit, powerful
+(define UNIT_BATTLESHIP 6); Sea unit, long range, moves slow, attacks any units
+(define UNIT_FERRY 7)     ; Sea unit, carries infantry and tanks
+;; Costs AIR > SEA > LAND
 
-
-(define (update-world world)
-  (check-unit-hover world))
-
-(define (incmenu world)
-    (define menu (world-menu world))
-    (when menu
-      (set-world-menuidx!
-        world (modulo (add1 (world-menuidx world))
-                      (length menu)))))
+(define BUILD_HQ 0)
+(define BUILD_MONEY 1)
+(define BUILD_FACTORY 2)
+(define BUILD_SEAFACTORY 2)
+(define BUILD_COVER 3)

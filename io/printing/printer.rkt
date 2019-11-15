@@ -2,7 +2,7 @@
 
 (provide (all-defined-out))
 (require "buffer.rkt")
-(require "../../world/world_constants.rkt")
+(require "../../world/world.rkt")
 
 (define ESC (integer->char 27))
 

@@ -1,9 +1,9 @@
 #lang racket
 
-(require "world.rkt")
+(require "game.rkt")
 (require "units.rkt")
 (require "buildings.rkt")
-(require "world_constants.rkt")
+(require "world.rkt")
 (provide make-world)
 
 (define (make-world width height)

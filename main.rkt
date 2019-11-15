@@ -1,8 +1,8 @@
 #lang racket
 
-(require "world/world.rkt")
+(require "world/game.rkt")
 (require "world/make_map.rkt")
-(require "world/world_constants.rkt")
+(require "world/world.rkt")
 (require "io_adapter.rkt")
 (require "io/input.rkt")
 

@@ -1,9 +1,12 @@
 #lang racket
+(require "io/printing/buffer.rkt")
+(require "io/printing/printer.rkt")
 (require "io/input.rkt")
 (require "io/prompt.rkt")
+(require "world/game.rkt")
 (require "world/units.rkt")
 (require "world/buildings.rkt")
-(require "world/world_constants.rkt")
+(require "world/world.rkt")
 (provide (all-defined-out))
 
 #|
@@ -13,10 +16,6 @@ the rendering io code. It serves
 
 |#
 
-(require "world/world.rkt")
-(require "world/world_constants.rkt")
-(require "io/printing/buffer.rkt")
-(require "io/printing/printer.rkt")
 
 ;;;; Graphics
 (define sb (make-buffer 50 25))
