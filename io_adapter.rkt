@@ -20,6 +20,8 @@ the rendering io code. It serves
 
 ;;;; Graphics
 (define sb (make-buffer 80 30))
+(define (set-sb w h)
+  (set! sb (make-buffer w h)))
 (define (get-cell-from-tiletype tile)
   (cond
     [(= tile TILE_GRASS) (cell DFT GRN #\")]

@@ -24,7 +24,8 @@
   (timed-loop time fn))
 
 (define (game in out pid)
-  (define world (load-map "maps/test.map"))
+  (define world (load-map "maps/small.map"))
+  (set-sb (world-width world) (world-height world))
   (set-world-player-id! world pid)
   (timed-loop 30
     (lambda ()
