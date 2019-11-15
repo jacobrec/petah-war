@@ -2,6 +2,7 @@
 
 (require "world.rkt")
 (require "units.rkt")
+(require "buildings.rkt")
 (require "world_constants.rkt")
 (provide make-world)
 
@@ -28,6 +29,8 @@
                             (unit 25 10 UNIT_PLANE)
                             (unit 8 6 UNIT_FERRY)
                             (unit 3 2 UNIT_DESTROYER)))
+  (set-world-buildings! w (list (building 10 10 BUILD_HQ)
+                                (building 11 11 BUILD_FACTORY)))
   (temp-add-island w)
   (temp-add-tile-set w
                  '((26 . 11)

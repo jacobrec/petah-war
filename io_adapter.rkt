@@ -2,6 +2,7 @@
 (require "io/input.rkt")
 (require "io/prompt.rkt")
 (require "world/units.rkt")
+(require "world/buildings.rkt")
 (require "world/world_constants.rkt")
 (provide (all-defined-out))
 
@@ -41,6 +42,15 @@ the rendering io code. It serves
     [(= unit UNIT_BOMBER) (cell DFT bg #\B)]
     [(= unit UNIT_HELICOPTER) (cell DFT bg #\H)]))
 
+(define (get-cell-from-buildingtype bld team)
+  (define bg team)
+  (cond
+    [(= bld BUILD_HQ) (cell DFT bg #\@)]
+    [(= bld BUILD_MONEY) (cell DFT bg #\$)]
+    [(= bld BUILD_FACTORY) (cell DFT bg #\#)]
+    [(= bld BUILD_SEAFACTORY) (cell DFT bg #\#)]
+    [(= bld BUILD_COVER) (cell DFT bg #\&)]))
+
 (define (draw-world world)
   ;; Set Buffer data from map
   (for [(y (range (world-height world)))]
@@ -57,6 +67,14 @@ the rendering io code. It serves
                          (cell-bg cell)
                          bg-overlay)
         (cell-char cell))))
+
+  ;; Set Buffer data from buildings
+  (for ([u (world-buildings world)])
+    (define cell (get-cell-from-buildingtype (building-type u) RED))
+    (screen-buffer-set-pixel! sb
+      (building-x u) (building-y u)
+      (cell-fg cell) (cell-bg cell)
+      (cell-char cell)))
 
   ;; Set Buffer data from movables
   (for ([u (world-units world)])

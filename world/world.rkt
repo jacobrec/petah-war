@@ -2,6 +2,7 @@
 
 (require "world_constants.rkt")
 (require "units.rkt")
+(require "buildings.rkt")
 (require "terrain.rkt")
 (provide (all-defined-out))
 
@@ -73,11 +74,21 @@
       (set-world-menu! world (unit-options u))
       (set-world-menuidx! world 0)
       (set-world-selection! world u)
+      (set! selected #t)))
+  (for ([u (world-buildings world)])
+    (when (and (not selected)
+               (= (world-cur-x world) (building-x u))
+               (= (world-cur-y world) (building-y u)))
+      (set-world-menu! world (building-options u))
+      (set-world-menuidx! world 0)
+      (set-world-selection! world u)
       (set! selected #t))))
 
 (define (do-option world)
   (when (world-menu world)
-    (unit-do world (world-selection world) (world-menuidx world))
+    (if (unit? (world-selection world))
+      (unit-do world (world-selection world) (world-menuidx world))
+      (building-do world (world-selection world) (world-menuidx world)))
     (set-world-selection! world #f)
     (set-world-menu! world #f)))
 
