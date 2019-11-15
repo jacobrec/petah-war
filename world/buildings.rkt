@@ -17,8 +17,9 @@
   (cond
     [(= btype BUILD_HQ) #f]
     [(= btype BUILD_MONEY) #f]
-    [(= btype BUILD_FACTORY) '("tank" "infantry" "helicopter" "bomber" "plane")]
-    [(= btype BUILD_SEAFACTORY) '("destroyer" "ferry" "battleship")]
+    [(= btype BUILD_FACTORY) '("tank ($500)" "infantry ($100)"
+                               "helicopter ($1000)" "bomber ($2000)" "plane ($1500)")]
+    [(= btype BUILD_SEAFACTORY) '("destroyer ($1000)" "ferry ($1000)" "battleship ($1000)")]
     [(= btype BUILD_COVER) #f]
     [else #f]))
 
