@@ -28,6 +28,7 @@ the rendering io code. It serves
     [(= tile TILE_FOREST) (cell BLK GRN #\%)]
     [(= tile TILE_WATER) (cell DFT BLU #\~)]
     [(= tile TILE_MOUNTAIN) (cell DFT BLK #\^)]
+    [(= tile TILE_BRIDGE) (cell BLK BLU #\=)]
     [(= tile TILE_ROAD) (cell DFT BLK #\╬)]))   ; TODO: make these actually look good
 
 (define (get-cell-from-unittype unit team)
