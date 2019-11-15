@@ -8,7 +8,8 @@
 (provide (all-defined-out))
 
 (define (send-turn world out)
-  (write-json (get-world-state-to-send world) out))
+  (write-json (get-world-state-to-send world) out)
+  (flush-output out))
 
 (define (receive-turn world in)
   (define data (read-json in))
@@ -25,14 +26,14 @@
   [list (building-x u) (building-y u) (building-owner-id u) (building-type u)])
 
 (define (vector->unit v)
-  (building (vector-ref v 0) (vector-ref v 1) (vector-ref v 2) (vector-ref v 3)))
+  (unit (list-ref v 0) (list-ref v 1) (list-ref v 2) (list-ref v 3)))
 
 (define (vector->building v)
-  (unit (vector-ref v 0) (vector-ref v 1) (vector-ref v 2) (vector-ref v 3)))
+  (building (list-ref v 0) (list-ref v 1) (list-ref v 2) (list-ref v 3)))
 
 (define (update-world-state-from-recived world data)
-  (set-world-units! (map vector->unit (dict-ref data 'units)))
-  (set-world-units! (map vector->building (dict-ref data 'buildings))))
+  (set-world-units! world (map vector->unit (dict-ref data 'units)))
+  (set-world-buildings! world (map vector->building (dict-ref data 'buildings))))
 
 (define (do-game world out in first)
   (unless first
