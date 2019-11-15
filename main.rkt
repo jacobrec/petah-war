@@ -21,7 +21,7 @@
   (timed-loop time fn))
 
 (define (game)
-  (define world (make-world 50 25 3))
+  (define world (make-world 50 25 1))
   (timed-loop 30
     (lambda ()
       (draw-world world)))
