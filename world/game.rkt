@@ -5,6 +5,7 @@
 (require "units.rkt")
 (require "buildings.rkt")
 (require "terrain.rkt")
+(require "../util.rkt")
 (provide (all-defined-out))
 
 
@@ -93,7 +94,8 @@
 
 
 (define (update-world world)
-  (check-unit-hover world))
+  (syncron
+    (check-unit-hover world)))
 
 (define (cmenu world fn)
   (define menu (world-menu world))
