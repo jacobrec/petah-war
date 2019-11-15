@@ -42,6 +42,9 @@
 (define (clear-line)
   (printf "~c[2K" ESC))
 
+(define (clear-rest)
+  (printf "~c[0J" ESC))
+
 (define (draw-buffer buf)
   (define cfg 8)
   (define cbg 8)

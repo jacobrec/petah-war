@@ -33,8 +33,6 @@
   (temp-setup wo))
 
 (define (temp-setup w)
-  (set-world-menu! w '("peter" "jacob" "chris" "arun"))
-  (set-world-menuidx! w 0)
   (set-world-units! w (list (unit 25 11 UNIT_INFANTRY)
                             (unit 25 12 UNIT_TANK)
                             (unit 25 10 UNIT_PLANE)
@@ -131,9 +129,16 @@
     (when (and (not selected)
                (= (world-cur-x world) (unit-x u))
                (= (world-cur-y world) (unit-y u)))
+      (set-world-menu! world (unit-options u))
+      (set-world-menuidx! world 0)
       (set-world-selection! world u)
       (set! selected #t))))
 
+(define (do-option world)
+  (when (world-menu world)
+    (unit-do world (world-selection world) (world-menuidx world))
+    (set-world-selection! world #f)
+    (set-world-menu! world #f)))
 
 (define (update-world world)
   (check-unit-hover world))

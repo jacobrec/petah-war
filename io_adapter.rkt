@@ -71,10 +71,11 @@ the rendering io code. It serves
   (reset-color)
   (clear-line)
   (displayln (world-status world))
-  (when (world-menu world)
+  (if (world-menu world)
     (render-choices
       (world-menu world)
-      (world-menuidx world)))
+      (world-menuidx world))
+    (clear-rest))
   (move-to
     (+ 1 (world-cur-x world)) ; Cursors are weird
     (world-cur-y world))
@@ -102,7 +103,8 @@ the rendering io code. It serves
     [(#\k) (move-cursor world 0 -1)]
     [(#\l) (move-cursor world 1 0)]
     [(#\tab) (incmenu world)]
-    [(#\space #\return) (do-selection world)]
+    [(#\return) (do-option world)]
+    [(#\space) (do-selection world)]
     [else (set-world-status! world "Not a keybinding")]))
 
 (define (move-cursor world x y)
