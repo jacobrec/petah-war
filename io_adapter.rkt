@@ -155,8 +155,9 @@ the rendering io code. It serves
   (case c
     [(#f) (set-world-status! world "No Key")]
     [(#\q) (begin (stty "sane") (end-screen) (exit))]
-    [(#\h #\j #\k #\l) (move-motion world c)]
     [(#\c) (set-world-selection! world #f)]
+    [(#\c) (set-world-selection! world #f)
+           (set-world-menu! world #f)]
     [(#\e) (brk)]
     [(#\tab) (incmenu world)]
     [(#\return #\space) (do-option-or-selection world)]
@@ -164,12 +165,12 @@ the rendering io code. It serves
 
 (define (move-motion world char)
   (if (world-menu world)
-     (move-menu world c)
-     (move-world world c)))
+     (move-menu world char)
+     (move-world world char)))
 (define (do-option-or-selection world)
-  (if (world-menu world
-       (do-option world)
-       (do-selection world))))
+  (if (world-menu world)
+     (do-option world)
+     (do-selection world)))
 
 (define (move-menu world char)
   (case char
