@@ -21,20 +21,27 @@
     [(= tunit UNIT_BATTLESHIP) 3]
     [else 0]))
 
-(define (unit-options unit)
+(define (unit-options-symbols unit)
   (define tunit (unit-type unit))
   (cond
-    [(= tunit UNIT_INFANTRY) '("attack" "capture" "wait")]
-    [(= tunit UNIT_TANK) '("attack" "wait")]
+    [(= tunit UNIT_INFANTRY) '(attack capture wait)]
+    [(= tunit UNIT_TANK) '(attack wait)]
 
-    [(= tunit UNIT_PLANE) '("attack" "wait")]
-    [(= tunit UNIT_BOMBER) '("attack" "wait")]
-    [(= tunit UNIT_HELICOPTER) '("rescue" "drop" "wait")]
+    [(= tunit UNIT_PLANE) '(attack wait)]
+    [(= tunit UNIT_BOMBER) '(attack wait)]
+    [(= tunit UNIT_HELICOPTER) '(rescue drop wait)]
 
-    [(= tunit UNIT_DESTROYER) '("attack" "wait")]
-    [(= tunit UNIT_FERRY) '("rescue" "drop" "wait")]
-    [(= tunit UNIT_BATTLESHIP) '("attack" "wait")]
+    [(= tunit UNIT_DESTROYER) '(attack wait)]
+    [(= tunit UNIT_FERRY) '(rescue drop wait)]
+    [(= tunit UNIT_BATTLESHIP) '(attack wait)]
     [else #f]))
+
+(define (unit-options unit)
+  (map symbol->string (unit-options-symbols unit)))
+
+(define (option-menu-pick->option-symbol unit option)
+  (list-ref (unit-options-symbols unit) option))
+
 
 (define (unit-do world unit option)
   (define x (world-cur-x world))
