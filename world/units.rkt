@@ -73,13 +73,9 @@
   (define y (world-cur-y world))
   (when (eq? opt 'attack)
     ; Do attack
-    (define hit #f)
-    (define uu #f)
     (define-values (dsx dsy) (world-ds world))
-    (for ([u (world-units world)])
-      (when (and (= dsx (unit-x u)) (= dsy (unit-y u)))
-        (set! hit u)
-        (set! uu u)))
+    (define hit (get-unit-at? world dsx dsy))
+    (define uu hit)
     (set! hit (and hit (does-kill? world unit hit)))
 
     ; Deal with results
@@ -115,3 +111,10 @@
   (define ta (unit-type unita))
   (define tb (unit-type unitb))
   50)
+
+(define (get-unit-at? world x y)
+  (define hit #f)
+  (for ([u (world-units world)])
+    (when (and (= x (unit-x u)) (= y (unit-y u)))
+      (set! hit u)))
+  hit)
