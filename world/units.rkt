@@ -3,7 +3,7 @@
 (provide (all-defined-out))
 
 (struct unit
-  (x y type owner-id [has-moved #:auto])
+  (x y owner-id type [has-moved #:auto])
   #:mutable #:auto-value #f)
 
 (define (unit-range unit)

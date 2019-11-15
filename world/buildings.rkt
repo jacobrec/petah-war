@@ -4,13 +4,13 @@
 (require "world.rkt")
 (require "units.rkt")
 
-(struct building (x y type))
+(struct building (x y owner-id type))
 
 (define (spawn-unit world x y type cost)
   (when (>= (world-money world) cost)
     (set-world-money! world (- (world-money world) cost))
     (set-world-units! world
-      (cons (unit x y type (world-player-id world))
+      (cons (unit x y (world-player-id world) type)
             (world-units world)))))
 
 (define (building-options unit)

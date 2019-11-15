@@ -28,7 +28,7 @@ the rendering io code. It serves
     [(= tile TILE_ROAD) (cell DFT BLK #\╬)]))   ; TODO: make these actually look good
 
 (define (get-cell-from-unittype unit team)
-  (define bg team)
+  (define bg (get-color-from-player-id team))
   (cond
     [(= unit UNIT_INFANTRY) (cell DFT bg #\I)]
     [(= unit UNIT_TANK) (cell DFT bg #\T)]
@@ -61,7 +61,7 @@ the rendering io code. It serves
 (define (overlay-unit world u)
   (define cell
     (get-cell-from-unittype (unit-type u)
-                            (get-color-from-player-id (world-player-id world))))
+                            (unit-owner-id u)))
   (define fg (cell-fg cell))
   (define bg (cell-bg cell))
   (define char (cell-char cell))
@@ -98,7 +98,7 @@ the rendering io code. It serves
     (define cell
       (get-cell-from-buildingtype
         (building-type u)
-        (get-color-from-player-id (world-player-id world))))
+        (get-color-from-player-id (building-owner-id u))))
     (screen-buffer-set-pixel! sb
       (building-x u) (building-y u)
       (cell-fg cell) (cell-bg cell)
