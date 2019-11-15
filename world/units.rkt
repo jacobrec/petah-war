@@ -73,16 +73,45 @@
   (define y (world-cur-y world))
   (when (eq? opt 'attack)
     ; Do attack
-    (set-world-status! world (symbol->string (world-directional-select world)))
+    (define hit #f)
+    (define uu #f)
+    (define-values (dsx dsy) (world-ds world))
+    (for ([u (world-units world)])
+      (when (and (= dsx (unit-x u)) (= dsy (unit-y u)))
+        (set! hit u)
+        (set! uu u)))
+    (set! hit (and hit (does-kill? world unit hit)))
 
+    ; Deal with results
+    (if hit
+      (set-world-status! world "It's a hit")
+      (set-world-status! world "It's a miss"))
+    (when hit
+      (set-world-units! world
+        (remq uu (world-units world))))
+
+    ; Move unit
+    (set-unit-has-moved! unit #t)
+    (set-unit-x! unit x)
+    (set-unit-y! unit y)
+
+    ; Deselect things
     (set-world-selection! world #f)
     (set-world-menu! world #f)
     (set-world-directional-select! world #f)))
 
-(define (does-kill? unita unitb)
+(define (does-kill? world unita unitb)
+  (set-world-status! world "Attacking")
+  (sleep 0.5)
+  (set-world-status! world "Attacking.")
+  (sleep 0.5)
+  (set-world-status! world "Attacking..")
+  (sleep 0.5)
+  (set-world-status! world "Attacking...")
+  (sleep 0.5)
   (> (kill-probability unita unitb) (random 100)))
 
 (define (kill-probability unita unitb)
   (define ta (unit-type unita))
   (define tb (unit-type unitb))
-  0.5)
+  50)
