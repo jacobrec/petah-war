@@ -8,6 +8,7 @@
 (require "world/units.rkt")
 (require "world/buildings.rkt")
 (require "world/world.rkt")
+(require "util.rkt")
 (provide (all-defined-out))
 
 #|
@@ -81,57 +82,58 @@ the rendering io code. It serves
 
 (define (draw-world world)
   ;; Set Buffer data from map
-  (for [(y (range (world-height world)))]
-    (for [(x (range (world-width world)))]
-      (define bg-overlay (vector-ref
-                           (world-bg-overlay world)
-                           (+ x (* y (world-width world)))))
-      (define cell (get-cell-from-tiletype
-                     (vector-ref
-                       (world-grid world)
-                       (+ x (* y (world-width world))))))
-      (screen-buffer-set-pixel! sb x y
-        (cell-fg cell) (if (= DFT bg-overlay)
-                         (cell-bg cell)
-                         bg-overlay)
-        (cell-char cell))))
+  (syncron
+    (for [(y (range (world-height world)))]
+      (for [(x (range (world-width world)))]
+        (define bg-overlay (vector-ref
+                             (world-bg-overlay world)
+                             (+ x (* y (world-width world)))))
+        (define cell (get-cell-from-tiletype
+                       (vector-ref
+                         (world-grid world)
+                         (+ x (* y (world-width world))))))
+        (screen-buffer-set-pixel! sb x y
+          (cell-fg cell) (if (= DFT bg-overlay)
+                           (cell-bg cell)
+                           bg-overlay)
+          (cell-char cell))))
 
-  ;; Set Buffer data from buildings
-  (for ([u (world-buildings world)])
-    (define cell
-      (get-cell-from-buildingtype
-        (building-type u)
-        (get-color-from-player-id (building-owner-id u))))
-    (screen-buffer-set-pixel! sb
-      (building-x u) (building-y u)
-      (cell-fg cell) (cell-bg cell)
-      (cell-char cell)))
+    ;; Set Buffer data from buildings
+    (for ([u (world-buildings world)])
+      (define cell
+        (get-cell-from-buildingtype
+          (building-type u)
+          (get-color-from-player-id (building-owner-id u))))
+      (screen-buffer-set-pixel! sb
+        (building-x u) (building-y u)
+        (cell-fg cell) (cell-bg cell)
+        (cell-char cell)))
 
-  ;; Set Buffer data from movables
-  (for ([u (world-units world)])
-    (overlay-unit world u))
+    ;; Set Buffer data from movables
+    (for ([u (world-units world)])
+      (overlay-unit world u))
 
-  (when (world-directional-select world)
-    (define-values (dsx dsy) (world-ds world))
-    (screen-buffer-set-pixel! sb dsx dsy DFT DFT #\x))
+    (when (world-directional-select world)
+      (define-values (dsx dsy) (world-ds world))
+      (screen-buffer-set-pixel! sb dsx dsy DFT DFT #\x))
 
-  (cursor-set #f)
-  (draw-buffer sb)
-  (reset-color)
-  (clear-line)
-  (printf "$~a\n" (world-money world))
-  (clear-line)
-  (displayln (world-status world))
-  (if (world-menu world)
-    (render-choices
-      (world-menu world)
-      (world-menuidx world))
-    (clear-rest))
-  (move-to
-    (+ 1 (world-cur-x world)) ; Cursors are weird
-    (world-cur-y world))
-  (cursor-set #t)
-  (flush-output))
+    (cursor-set #f)
+    (draw-buffer sb)
+    (reset-color)
+    (clear-line)
+    (printf "$~a\n" (world-money world))
+    (clear-line)
+    (displayln (world-status world))
+    (if (world-menu world)
+      (render-choices
+        (world-menu world)
+        (world-menuidx world))
+      (clear-rest))
+    (move-to
+      (+ 1 (world-cur-x world)) ; Cursors are weird
+      (world-cur-y world))
+    (cursor-set #t)
+    (flush-output)))
 
 (define (start-screen)
   (save-cursor)
