@@ -47,17 +47,31 @@
   (when (eq? opt 'wait)
     (set-unit-has-moved! unit #t)
     (set-unit-x! unit x)
-    (set-unit-y! unit y))
+    (set-unit-y! unit y)
+    (set-world-selection! world #f)
+    (set-world-menu! world #f))
   (when (eq? opt 'capture)
     (define done #f)
     (for ([bld (world-buildings world)]) #:break done
       (when (and (= (building-x bld) (world-cur-x world))
                  (= (building-y bld) (world-cur-y world)))
         (set! done #t)
-        (set-building-owner-id! bld (unit-owner-id unit)))))
+        (set-building-owner-id! bld (unit-owner-id unit))))
+    (set-world-selection! world #f)
+    (set-world-menu! world #f))
   (when (eq? opt 'attack)
     (set-world-directional-select! world 'left)))
 
+(define (unit-do-direction unit option)
+  (define opt (option-menu-pick->option-symbol unit option))
+  (set-world-status! world (symbol->string opt))
+  (define x (world-cur-x world))
+  (define y (world-cur-y world))
+  (when (eq? opt 'attack)
+    (set-world-status! world (symbol->string (world-directional-select world)))
+    (set-world-selection! world #f)
+    (set-world-menu! world #f)
+    (set-world-directional-select! world #f)))
 
 
 

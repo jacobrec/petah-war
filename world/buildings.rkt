@@ -41,4 +41,6 @@
        [(1) (spawn-unit world (building-x bld) (building-y bld) UNIT_FERRY 1000)]
        [(2) (spawn-unit world (building-x bld) (building-y bld) UNIT_BATTLESHIP 1000)])]
     [(= btype BUILD_COVER) #f]
-    [else #f]))
+    [else #f])
+  (set-world-selection! world #f)
+  (set-world-menu! world #f))

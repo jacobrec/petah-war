@@ -109,16 +109,16 @@ the rendering io code. It serves
   (for ([u (world-units world)])
     (overlay-unit world u))
 
-  (define dsx (world-cur-x world))
-  (define dsy (world-cur-y world))
-  (case (world-directional-select world)
-    [(left) (set! dsx (sub1 dsx))]
-    [(right) (set! dsx (add1 dsx))]
-    [(up) (set! dsy (sub1 dsy))]
-    [(down) (set! dsy (add1 dsy))]
-    [else #f])
-
-  (screen-buffer-set-pixel! sb dsx dsy DFT DFT #\x)
+  (when (world-directional-select world)
+    (define dsx (world-cur-x world))
+    (define dsy (world-cur-y world))
+    (case (world-directional-select world)
+      [(left) (set! dsx (add1 dsx))]
+      [(right) (set! dsx (sub1 dsx))]
+      [(up) (set! dsy (sub1 dsy))]
+      [(down) (set! dsy (add1 dsy))]
+      [else #f])
+    (screen-buffer-set-pixel! sb dsx dsy DFT DFT #\x))
 
   (cursor-set #f)
   (draw-buffer sb)
@@ -163,14 +163,25 @@ the rendering io code. It serves
     [(#\return #\space) (do-option-or-selection world)]
     [else (set-world-status! world "Not a keybinding")]))
 
-(define (move-motion world char)
-  (if (world-menu world)
-     (move-menu world char)
-     (move-world world char)))
+(define (move-motion world c)
+  (cond
+    [(world-directional-select world) (move-direction world c)]
+    [(world-menu world) (move-menu world c)]
+    [else (move-world world c)]))
+
 (define (do-option-or-selection world)
-  (if (world-menu world)
-     (do-option world)
-     (do-selection world)))
+  (cond
+    [(world-directional-select world) (do-directional-option world)]
+    [(world-menu world) (do-option world)]
+    [else (do-selection world)]))
+
+(define (move-direction world char)
+  (case char
+    [(#\h) (set-world-directional-select! world 'right)]
+    [(#\j) (set-world-directional-select! world 'down)]
+    [(#\k) (set-world-directional-select! world 'up)]
+    [(#\l) (set-world-directional-select! world 'left)]
+    [else #t]))
 
 (define (move-menu world char)
   (case char
