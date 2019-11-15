@@ -11,6 +11,7 @@
                width height
                selection
                state
+               money
                cur-x cur-y) #:mutable)
 
 (define BLK 0)

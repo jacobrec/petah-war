@@ -99,6 +99,8 @@ the rendering io code. It serves
   (draw-buffer sb)
   (reset-color)
   (clear-line)
+  (printf "$~a\n" (world-money world))
+  (clear-line)
   (displayln (world-status world))
   (if (world-menu world)
     (render-choices

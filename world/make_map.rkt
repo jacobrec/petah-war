@@ -20,6 +20,7 @@
                     width height
                     #f
                     'start ; state
+                    3000 ; money
                     0 0))               ; cur-x cur-y
   (temp-setup wo))
 
