@@ -72,6 +72,7 @@
     [(char=? c #\") TILE_GRASS]
     [(char=? c #\%) TILE_FOREST]
     [(char=? c #\^) TILE_MOUNTAIN]
+    [(char=? c #\=) TILE_BRIDGE]
     [(char=? c #\╬) TILE_ROAD]
     [else TILE_WATER]))
 

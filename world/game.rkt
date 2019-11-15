@@ -32,9 +32,10 @@
       (vector-set! overlay (access x y) color)
       (define (next x y)
         (when (and (> range 0)
-                (or (not (get-unit-at? world x y))
+                (or (not (get-unit-at? world x y)) ;; Unit blocking
                     (= (world-player-id world)
-                       (unit-owner-id (get-unit-at? world x y))))
+                       (unit-owner-id (get-unit-at? world x y)))
+                    (different-unit-movement? unit (get-unit-at? world x y)))
                 (< x w) (< y h) (>= x 0) (>= y 0))
             (fill x y
                   (- range

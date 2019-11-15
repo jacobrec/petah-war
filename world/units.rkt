@@ -187,3 +187,10 @@
     (when (and (= x (unit-x u)) (= y (unit-y u)))
       (set! hit u)))
   hit)
+
+(define (different-unit-movement? a b)
+  (define ta (unit-type a))
+  (define tb (unit-type b))
+  (not (eq?
+         (or (= ta UNIT_PLANE) (= ta UNIT_HELICOPTER) (= ta UNIT_BOMBER))
+         (or (= tb UNIT_PLANE) (= tb UNIT_HELICOPTER) (= tb UNIT_BOMBER)))))

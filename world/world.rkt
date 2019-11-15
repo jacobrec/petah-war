@@ -32,6 +32,7 @@
 (define TILE_MOUNTAIN 2)
 (define TILE_FOREST 3)
 (define TILE_ROAD 4)
+(define TILE_BRIDGE 5)
 
 (define UNIT_INFANTRY 0)  ; Land unit, can take bases, is cheap
 (define UNIT_TANK 1)      ; Land unit, powerful
