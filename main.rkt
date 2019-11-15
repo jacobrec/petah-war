@@ -31,7 +31,10 @@
     (lambda ()
       (update-world world)))
   (with-raw
-    (do-game world out in (= pid 1))))
+    (do-game world out in (= pid 1))
+    (end-screen)
+    (displayln "Other player disconnected")
+    (exit)))
 
 ;; Start
 (define-values [in out pid] (prompt-handshake))

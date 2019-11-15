@@ -39,14 +39,18 @@
   (set-world-buildings! world (map vector->building (dict-ref data 'buildings))))
 
 (define (do-game world out in first)
-  (unless first
-    (set-world-status! world "Waiting for opponent(s)")
-    (receive-turn world in))
   (define (loop)
     (set-world-status! world "Your Turn!")
     (start-input-loop world)
     (send-turn world out)
     (set-world-status! world "Waiting for opponent(s)")
-    (unless (eof-object? (receive-turn world in))
+    (if (eof-object? (receive-turn world in))
+      (set-world-status! world "Other player disconnected")
       (loop)))
-  (loop))
+  (if first
+    (loop)
+    (begin
+      (set-world-status! world "Waiting for opponent(s)")
+      (if (eof-object? (receive-turn world in))
+        (set-world-status! world "Other player disconnected")
+        (loop)))))
