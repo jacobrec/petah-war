@@ -147,7 +147,8 @@ the rendering io code. It serves
     [(#\h #\j #\k #\l) (if (world-menu world)
                          (move-menu world c)
                          (move-world world c))]
-    [(#\c) (set-world-selection! world #f)]
+    [(#\c) (set-world-selection! world #f)
+           (set-world-menu! world #f)]
     [(#\e) (brk)]
     [(#\tab) (incmenu world)]
     [(#\return #\space) (do-option-or-selection world)]
