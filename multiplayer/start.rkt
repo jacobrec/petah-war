@@ -15,8 +15,10 @@
   (define id (generate-id))
   (printf "gameid: ~a\n" id)
   (displayln "waiting for other user...")
-  (host-game id))
+  (let-values (([in out] (host-game id)))
+    (values in out 1)))
 
 (define (prompt-join-game)
   (display "gameid? ")
-  (join-game (read-line)))
+  (let-values (([in out] (join-game (read-line))))
+    (values in out 2)))

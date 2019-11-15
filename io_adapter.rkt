@@ -138,7 +138,7 @@ the rendering io code. It serves
   (restore-cursor))
 
 ;;;; Input
-(define (do-input world)
+(define (do-input world brk)
   (define c (read-char))
   (case c
     [(#f) (set-world-status! world "No Key")]
@@ -147,6 +147,7 @@ the rendering io code. It serves
                          (move-menu world c)
                          (move-world world c))]
     [(#\c) (set-world-selection! world #f)]
+    [(#\e) (brk)]
     [(#\tab) (incmenu world)]
     [(#\return #\space) (do-option-or-selection world)]
     [else (set-world-status! world "Not a keybinding")]))
@@ -175,8 +176,9 @@ the rendering io code. It serves
 
 (define-struct (quit-exception exn:fail:user) ())
 (define (start-input-loop world)
-  (define (loop)
-    (do-input world)
-    (loop))
-  (with-raw
-    (loop)))
+  (call/cc
+    (lambda (brk)
+      (define (loop)
+        (do-input world brk)
+        (loop))
+      (loop))))

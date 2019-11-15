@@ -5,6 +5,8 @@
 (require "world/world.rkt")
 (require "io_adapter.rkt")
 (require "io/input.rkt")
+(require "multiplayer/start.rkt")
+(require "multiplayer/game.rkt")
 
 
 (define (timed-loop time fn)
@@ -20,20 +22,22 @@
     (sleep del))
   (timed-loop time fn))
 
-(define (game)
-  (define world (make-world 50 25 1))
+(define (game in out pid)
+  (define world (make-world 50 25 pid))
   (timed-loop 30
     (lambda ()
       (draw-world world)))
   (timed-loop 100
     (lambda ()
       (update-world world)))
-  (start-input-loop world))
+  (with-raw
+    (do-game world out in (= pid 1))))
 
 ;; Start
+(define-values [in out pid] (prompt-handshake))
 (start-screen)
 (with-handlers ([exn:break? (lambda (exn)
                                (end-screen))])
-  (game)
+  (game in out pid)
   (sleep 100))
 
