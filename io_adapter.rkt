@@ -48,7 +48,7 @@ the rendering io code. It serves
     [(= bld BUILD_HQ) (cell DFT bg #\@)]
     [(= bld BUILD_MONEY) (cell DFT bg #\$)]
     [(= bld BUILD_FACTORY) (cell DFT bg #\#)]
-    [(= bld BUILD_SEAFACTORY) (cell DFT bg #\#)]
+    [(= bld BUILD_SEAFACTORY) (cell DFT bg #\*)]
     [(= bld BUILD_COVER) (cell DFT bg #\&)]))
 
 (define (get-color-from-player-id id)
