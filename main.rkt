@@ -7,6 +7,7 @@
 (require "io/input.rkt")
 (require "multiplayer/start.rkt")
 (require "multiplayer/game.rkt")
+(require "maps/load.rkt")
 
 
 (define (timed-loop time fn)
@@ -23,7 +24,8 @@
   (timed-loop time fn))
 
 (define (game in out pid)
-  (define world (make-world 50 25 pid))
+  (define world (load-map "maps/test.map"))
+  (set-world-player-id! world pid)
   (timed-loop 30
     (lambda ()
       (draw-world world)))
@@ -41,6 +43,5 @@
 (start-screen)
 (with-handlers ([exn:break? (lambda (exn)
                                (end-screen))])
-  (game in out pid)
-  (sleep 100))
+  (game in out pid))
 
