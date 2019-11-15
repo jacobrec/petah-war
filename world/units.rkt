@@ -2,7 +2,7 @@
 (require "world_constants.rkt")
 (provide (all-defined-out))
 
-(struct unit (x y type))
+(struct unit (x y type) #:mutable)
 
 (define (unit-range unit)
   (define tunit (unit-type unit))
