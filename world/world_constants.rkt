@@ -28,3 +28,9 @@
 (define UNIT_BATTLESHIP 6); Sea unit, long range, moves slow, attacks any units
 (define UNIT_FERRY 7)     ; Sea unit, carries infantry and tanks
 ;; Costs AIR > SEA > LAND
+
+(define BUILD_HQ 0)
+(define BUILD_MONEY 1)
+(define BUILD_FACTORY 2)
+(define BUILD_SEAFACTORY 2)
+(define BUILD_COVER 3)

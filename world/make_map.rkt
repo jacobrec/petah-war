@@ -13,6 +13,8 @@
                       (* width height)
                       DFT)
                     ""                  ; Status
+                    #f 0
+                    (list)
                     (list)
                     width height
                     #f

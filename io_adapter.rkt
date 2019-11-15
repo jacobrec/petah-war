@@ -1,5 +1,6 @@
 #lang racket
 (require "io/input.rkt")
+(require "io/prompt.rkt")
 (require "world/units.rkt")
 (require "world/world_constants.rkt")
 (provide (all-defined-out))
@@ -70,6 +71,10 @@ the rendering io code. It serves
   (reset-color)
   (clear-line)
   (displayln (world-status world))
+  (when (world-menu world)
+    (render-choices
+      (world-menu world)
+      (world-menuidx world)))
   (move-to
     (+ 1 (world-cur-x world)) ; Cursors are weird
     (world-cur-y world))
@@ -96,6 +101,7 @@ the rendering io code. It serves
     [(#\j) (move-cursor world 0 1)]
     [(#\k) (move-cursor world 0 -1)]
     [(#\l) (move-cursor world 1 0)]
+    [(#\tab) (incmenu world)]
     [(#\space #\return) (do-selection world)]
     [else (set-world-status! world "Not a keybinding")]))
 

@@ -8,7 +8,10 @@
 (struct world (grid
                bg-overlay
                status
+               menu
+               menuidx
                units
+               buildings
                width height
                selection
                cur-x cur-y) #:mutable)
@@ -73,3 +76,10 @@
 
 (define (update-world world)
   (check-unit-hover world))
+
+(define (incmenu world)
+    (define menu (world-menu world))
+    (when menu
+      (set-world-menuidx!
+        world (modulo (add1 (world-menuidx world))
+                      (length menu)))))
