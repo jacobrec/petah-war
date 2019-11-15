@@ -63,7 +63,7 @@
     (set-world-selection! world #f)
     (set-world-menu! world #f))
   (when (eq? opt 'attack)
-    (set-world-directional-select! world 'left)))
+    (set-world-directional-select! world 'left))
   #f)
 
 (define (unit-do-direction world unit option)
