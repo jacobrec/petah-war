@@ -97,7 +97,7 @@
     (set-world-directional-select! world #f)))
 
 (define (does-kill? world unita unitb)
-  (set-world-status! world "Attacking")
+  (set-world-status! world (kill-probability unita unitb))
   (sleep 0.5)
   (set-world-status! world "Attacking.")
   (sleep 0.5)
@@ -113,71 +113,71 @@
   (cond
     [(= ta UNIT_INFANTRY)
      (cond
-       [(= ta UNIT_INFANTRY) 75]
-       [(= ta UNIT_TANK) 10]
-       [(= ta UNIT_PLANE) 0]
-       [(= ta UNIT_HELICOPTER) 3]
-       [(= ta UNIT_BOMBER) 0]
-       [(= ta UNIT_DESTROYER) 0]
-       [(= ta UNIT_FERRY) 3]
-       [(= ta UNIT_BATTLESHIP) 0]
+       [(= tb UNIT_INFANTRY) 75]
+       [(= tb UNIT_TANK) 10]
+       [(= tb UNIT_PLANE) 0]
+       [(= tb UNIT_HELICOPTER) 3]
+       [(= tb UNIT_BOMBER) 0]
+       [(= tb UNIT_DESTROYER) 0]
+       [(= tb UNIT_FERRY) 3]
+       [(= tb UNIT_BATTLESHIP) 0]
        [else 0])]
     [(= ta UNIT_TANK)
      (cond
-       [(= ta UNIT_INFANTRY) 100]
-       [(= ta UNIT_TANK) 75]
-       [(= ta UNIT_PLANE) 10]
-       [(= ta UNIT_HELICOPTER) 20]
-       [(= ta UNIT_BOMBER) 10]
-       [(= ta UNIT_DESTROYER) 10]
-       [(= ta UNIT_FERRY) 50]
-       [(= ta UNIT_BATTLESHIP) 10]
+       [(= tb UNIT_INFANTRY) 100]
+       [(= tb UNIT_TANK) 75]
+       [(= tb UNIT_PLANE) 10]
+       [(= tb UNIT_HELICOPTER) 20]
+       [(= tb UNIT_BOMBER) 10]
+       [(= tb UNIT_DESTROYER) 10]
+       [(= tb UNIT_FERRY) 50]
+       [(= tb UNIT_BATTLESHIP) 10]
        [else 0])]
     [(= ta UNIT_PLANE)
      (cond
-       [(= ta UNIT_INFANTRY) 3]
-       [(= ta UNIT_TANK) 3]
-       [(= ta UNIT_PLANE) 90]
-       [(= ta UNIT_HELICOPTER) 100]
-       [(= ta UNIT_BOMBER) 90]
-       [(= ta UNIT_DESTROYER) 3]
-       [(= ta UNIT_FERRY) 10]
-       [(= ta UNIT_BATTLESHIP) 3]
+       [(= tb UNIT_INFANTRY) 3]
+       [(= tb UNIT_TANK) 3]
+       [(= tb UNIT_PLANE) 90]
+       [(= tb UNIT_HELICOPTER) 100]
+       [(= tb UNIT_BOMBER) 90]
+       [(= tb UNIT_DESTROYER) 3]
+       [(= tb UNIT_FERRY) 10]
+       [(= tb UNIT_BATTLESHIP) 3]
        [else 0])]
     [(= ta UNIT_HELICOPTER) 0]
     [(= ta UNIT_BOMBER)
      (cond
-       [(= ta UNIT_INFANTRY) 100]
-       [(= ta UNIT_TANK) 100]
-       [(= ta UNIT_PLANE) 3]
-       [(= ta UNIT_HELICOPTER) 100]
-       [(= ta UNIT_BOMBER) 3]
-       [(= ta UNIT_DESTROYER) 100]
-       [(= ta UNIT_FERRY) 100]
-       [(= ta UNIT_BATTLESHIP) 30]
+       [(= tb UNIT_INFANTRY) 100]
+       [(= tb UNIT_TANK) 100]
+       [(= tb UNIT_PLANE) 3]
+       [(= tb UNIT_HELICOPTER) 100]
+       [(= tb UNIT_BOMBER) 3]
+       [(= tb UNIT_DESTROYER) 100]
+       [(= tb UNIT_FERRY) 100]
+       [(= tb UNIT_BATTLESHIP) 30]
        [else 0])]
     [(= ta UNIT_DESTROYER)
      (cond
-       [(= ta UNIT_INFANTRY) 20]
-       [(= ta UNIT_TANK) 20]
-       [(= ta UNIT_PLANE) 2]
-       [(= ta UNIT_HELICOPTER) 2]
-       [(= ta UNIT_BOMBER) 2]
-       [(= ta UNIT_DESTROYER) 90]
-       [(= ta UNIT_FERRY) 100]
-       [(= ta UNIT_BATTLESHIP) 30]
+       [(= tb UNIT_INFANTRY) 20]
+       [(= tb UNIT_TANK) 20]
+       [(= tb UNIT_PLANE) 2]
+       [(= tb UNIT_HELICOPTER) 2]
+       [(= tb UNIT_BOMBER) 2]
+       [(= tb UNIT_DESTROYER) 90]
+       [(= tb UNIT_FERRY) 100]
+       [(= tb UNIT_BATTLESHIP) 30]
        [else 0])]
     [(= ta UNIT_FERRY) 0]
     [(= ta UNIT_BATTLESHIP)
      (cond
-       [(= ta UNIT_INFANTRY) 100]
-       [(= ta UNIT_TANK) 100]
-       [(= ta UNIT_PLANE) 70]
-       [(= ta UNIT_HELICOPTER) 100]
-       [(= ta UNIT_BOMBER) 70]
-       [(= ta UNIT_DESTROYER) 100]
-       [(= ta UNIT_FERRY) 100]
-       [(= ta UNIT_BATTLESHIP) 70]
+       [(= tb UNIT_INFANTRY) 100]
+       [(= tb UNIT_TANK) 100]
+       [(= tb UNIT_PLANE) 70]
+       [(= tb UNIT_HELICOPTER) 100]
+       [(= tb UNIT_BOMBER) 70]
+       [(= tb UNIT_DESTROYER) 100]
+       [(= tb UNIT_FERRY) 100]
+       [(= tb UNIT_BATTLESHIP) 70]
        [else 0])]
     [else 0]))
 
