@@ -35,6 +35,10 @@
        [(2) (spawn-unit world (building-x bld) (building-y bld) UNIT_HELICOPTER 1000)]
        [(3) (spawn-unit world (building-x bld) (building-y bld) UNIT_BOMBER 2000)]
        [(4) (spawn-unit world (building-x bld) (building-y bld) UNIT_PLANE 1500)])]
-    [(= btype BUILD_SEAFACTORY) '("destroyer" "ferry" "battleship")]
+    [(= btype BUILD_SEAFACTORY)
+     (case option
+       [(0) (spawn-unit world (building-x bld) (building-y bld) UNIT_DESTROYER 1000)]
+       [(1) (spawn-unit world (building-x bld) (building-y bld) UNIT_FERRY 1000)]
+       [(2) (spawn-unit world (building-x bld) (building-y bld) UNIT_BATTLESHIP 1000)])]
     [(= btype BUILD_COVER) #f]
     [else #f]))
