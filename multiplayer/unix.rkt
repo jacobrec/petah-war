@@ -21,10 +21,10 @@
 
 (define (host-game id)
   (unless (directory-exists? gamedir)
-    (make-directory gamedir)
-    (unix-socket-accept
-      (unix-socket-listen
-        (gameid->path id)))))
+    (make-directory gamedir))
+  (unix-socket-accept
+    (unix-socket-listen
+      (gameid->path id))))
 
 (define (join-game code)
   (unix-socket-connect (gameid->path code)))
