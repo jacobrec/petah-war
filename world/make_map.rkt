@@ -19,6 +19,7 @@
                     (list)
                     width height
                     #f
+                    'start ; state
                     0 0))               ; cur-x cur-y
   (temp-setup wo))
 

@@ -6,16 +6,6 @@
 (require "terrain.rkt")
 (provide (all-defined-out))
 
-(struct world (grid
-               bg-overlay
-               status
-               menu
-               menuidx
-               units
-               buildings
-               width height
-               selection
-               cur-x cur-y) #:mutable)
 
 (define (check-unit-hover world)
   (set-world-bg-overlay! world (make-vector
@@ -63,16 +53,16 @@
     (define x (world-cur-x world))
     (define y (world-cur-y world))
     (define w (world-width world))
+    ; Finish unit movement
     (when (= CYN (vector-ref (world-bg-overlay world) (+ x (* y w))))
-      (set-unit-x! (world-selection world) x)
-      (set-unit-y! (world-selection world) y))
+      (set-world-menu! world (unit-options (world-selection world)))
+      (set-world-menuidx! world 0))
     (set! selected #t))
   (for ([u (world-units world)])
     (when (and (not selected)
+               (not (unit-has-moved u))
                (= (world-cur-x world) (unit-x u))
                (= (world-cur-y world) (unit-y u)))
-      (set-world-menu! world (unit-options u))
-      (set-world-menuidx! world 0)
       (set-world-selection! world u)
       (set! selected #t)))
   (for ([u (world-buildings world)])
@@ -91,6 +81,7 @@
       (building-do world (world-selection world) (world-menuidx world)))
     (set-world-selection! world #f)
     (set-world-menu! world #f)))
+
 
 (define (update-world world)
   (check-unit-hover world))
