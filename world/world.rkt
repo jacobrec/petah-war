@@ -49,3 +49,13 @@
 (define BUILD_SEAFACTORY 3)
 (define BUILD_COVER 4)
 
+(define (world-ds world)
+  (define dsx (world-cur-x world))
+  (define dsy (world-cur-y world))
+  (case (world-directional-select world)
+    [(left) (set! dsx (sub1 dsx))]
+    [(right) (set! dsx (add1 dsx))]
+    [(up) (set! dsy (sub1 dsy))]
+    [(down) (set! dsy (add1 dsy))]
+    [else #f])
+  (values dsx dsy))

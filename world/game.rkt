@@ -13,14 +13,12 @@
                                  (* (world-width world)
                                     (world-height world))
                                  DFT))
-  (if (and
-        (world-selection world)
-        (unit? (world-selection world)))
+  (if (and (world-selection world)
+           (unit? (world-selection world)))
       (set-move-overlay world (world-selection world) CYN)
-      (for ([u (world-units world)])
-        (when (and (= (world-cur-x world) (unit-x u))
-                   (= (world-cur-y world) (unit-y u)))
-          (set-move-overlay world u MAG)))))
+      (let ([u (get-unit-at? world (world-cur-x world) (world-cur-y world))])
+        (when u
+            (set-move-overlay world u MAG)))))
 (define (set-move-overlay world unit color)
   (define d (unit-range unit))
   (define h (world-height world))
@@ -33,6 +31,9 @@
       (vector-set! overlay (access x y) color)
       (define (next x y)
         (when (and (> range 0)
+                (or (not (get-unit-at? world x y))
+                    (= (world-player-id world)
+                       (unit-owner-id (get-unit-at? world x y))))
                 (< x w) (< y h) (>= x 0) (>= y 0))
             (fill x y
                   (- range
@@ -106,3 +107,4 @@
 
 (define (decmenu world)
   (cmenu world sub1))
+

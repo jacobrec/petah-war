@@ -31,6 +31,7 @@
   (set-world-units! w (list (unit 25 11 2 UNIT_INFANTRY)
                             (unit 25 12 2 UNIT_TANK)
                             (unit 25 10 2 UNIT_PLANE)
+                            (unit 11 8 2 UNIT_INFANTRY)
                             (unit 8 6 2 UNIT_FERRY)
                             (unit 3 2 2 UNIT_DESTROYER)))
   (set-world-buildings! w (list (building 10 10 1 BUILD_HQ)

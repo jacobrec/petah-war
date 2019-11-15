@@ -110,14 +110,7 @@ the rendering io code. It serves
     (overlay-unit world u))
 
   (when (world-directional-select world)
-    (define dsx (world-cur-x world))
-    (define dsy (world-cur-y world))
-    (case (world-directional-select world)
-      [(left) (set! dsx (sub1 dsx))]
-      [(right) (set! dsx (add1 dsx))]
-      [(up) (set! dsy (sub1 dsy))]
-      [(down) (set! dsy (add1 dsy))]
-      [else #f])
+    (define-values (dsx dsy) (world-ds world))
     (screen-buffer-set-pixel! sb dsx dsy DFT DFT #\x))
 
   (cursor-set #f)
