@@ -16,11 +16,13 @@
       (cond [(= unit UNIT_TANK)
              (cond [(= tile TILE_MOUNTAIN) 6]
                    [(= tile TILE_FOREST) 4]
+                   [(= tile TILE_GRASS) 2]
                    [(= tile TILE_ROAD) 1]
-                   [else 2])]
+                   [else NO])]
             [(= unit UNIT_INFANTRY)
              (cond [(= tile TILE_MOUNTAIN) 4]
                    [(= tile TILE_FOREST) 3]
+                   [(= tile TILE_GRASS) 2]
                    [(= tile TILE_ROAD) 1]
-                   [else 2])]
+                   [else NO])]
             [else NO]))))
