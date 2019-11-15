@@ -1,5 +1,6 @@
 #lang racket
 
+(require "types.rkt")
 (require "world.rkt")
 (require "units.rkt")
 (require "buildings.rkt")
@@ -93,6 +94,7 @@
     (set-world-menuidx!
       world (modulo (fn (world-menuidx world))
                     (length menu)))))
+
 
 (define (incmenu world)
   (cmenu world add1))

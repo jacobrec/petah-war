@@ -3,6 +3,7 @@
 (require "io/printing/printer.rkt")
 (require "io/input.rkt")
 (require "io/prompt.rkt")
+(require "world/types.rkt")
 (require "world/game.rkt")
 (require "world/units.rkt")
 (require "world/buildings.rkt")

@@ -1,10 +1,7 @@
 #lang racket
 (require "world.rkt")
+(require "types.rkt")
 (provide (all-defined-out))
-
-(struct unit
-  (x y owner-id type [has-moved #:auto])
-  #:mutable #:auto-value #f)
 
 (define (unit-range unit)
   (define tunit (unit-type unit))
@@ -51,4 +48,11 @@
     (set-unit-has-moved! unit #t)
     (set-unit-x! unit x)
     (set-unit-y! unit y))
+  (when (eq? opt 'capture)
+    (define done #f)
+    (for ([bld (world-buildings world)]) #:break done
+      (when (and (= (building-x bld) (world-cur-x world))
+                 (= (building-y bld) (world-cur-y world)))
+        (set! done #t)
+        (set-building-owner-id! bld (unit-owner-id unit)))))
   #f)

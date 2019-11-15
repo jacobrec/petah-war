@@ -1,5 +1,6 @@
 #lang racket
 
+(require "types.rkt")
 (require "game.rkt")
 (require "units.rkt")
 (require "buildings.rkt")

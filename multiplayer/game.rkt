@@ -4,6 +4,7 @@
 (require "../world/units.rkt")
 (require "../world/buildings.rkt")
 (require "../io_adapter.rkt")
+(require "../world/types.rkt")
 (require json)
 (provide (all-defined-out))
 
