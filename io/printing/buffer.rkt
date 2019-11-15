@@ -18,4 +18,3 @@
     (screen-buffer-cells buf)
     (+ x (* y (screen-buffer-width buf)))
     (cell fg bg char)))
-

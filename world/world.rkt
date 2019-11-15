@@ -12,6 +12,7 @@
                selection
                money
                player-id
+               directional-select
                cur-x cur-y) #:mutable)
 
 (define BLK 0)
@@ -22,7 +23,7 @@
 (define MAG 5)
 (define CYN 6)
 (define WHT 7)
-(define DFT 9) ; IDK why/how/if this one works
+(define DFT 9)
 (define FG 30)
 (define BG 40)
 

@@ -109,6 +109,17 @@ the rendering io code. It serves
   (for ([u (world-units world)])
     (overlay-unit world u))
 
+  (define dsx (world-cur-x world))
+  (define dsy (world-cur-y world))
+  (case (world-directional-select world)
+    [(left) (set! dsx (sub1 dsx))]
+    [(right) (set! dsx (add1 dsx))]
+    [(up) (set! dsy (sub1 dsy))]
+    [(down) (set! dsy (add1 dsy))]
+    [else #f])
+
+  (screen-buffer-set-pixel! sb dsx dsy DFT DFT #\x)
+
   (cursor-set #f)
   (draw-buffer sb)
   (reset-color)
@@ -144,19 +155,22 @@ the rendering io code. It serves
   (case c
     [(#f) (set-world-status! world "No Key")]
     [(#\q) (begin (stty "sane") (end-screen) (exit))]
-    [(#\h #\j #\k #\l) (if (world-menu world)
-                         (move-menu world c)
-                         (move-world world c))]
+    [(#\h #\j #\k #\l) (move-motion world c)]
     [(#\c) (set-world-selection! world #f)]
     [(#\e) (brk)]
     [(#\tab) (incmenu world)]
     [(#\return #\space) (do-option-or-selection world)]
     [else (set-world-status! world "Not a keybinding")]))
 
-(define (do-option-or-selection world)
+(define (move-motion world char)
   (if (world-menu world)
-      (do-option world)
-      (do-selection world)))
+     (move-menu world c)
+     (move-world world c)))
+(define (do-option-or-selection world)
+  (if (world-menu world
+       (do-option world)
+       (do-selection world))))
+
 (define (move-menu world char)
   (case char
     [(#\j) (incmenu world)]

@@ -55,4 +55,14 @@
                  (= (building-y bld) (world-cur-y world)))
         (set! done #t)
         (set-building-owner-id! bld (unit-owner-id unit)))))
-  #f)
+  (when (eq? opt 'attack)
+    (set-world-directional-select! world 'left)))
+
+
+
+
+
+
+
+
+

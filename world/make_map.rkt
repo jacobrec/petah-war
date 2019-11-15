@@ -22,6 +22,7 @@
                     #f
                     3000 ; money
                     id ; player id
+                    'none ; direction state
                     0 0))               ; cur-x cur-y
   (temp-setup wo))
 
