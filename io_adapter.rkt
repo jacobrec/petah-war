@@ -124,19 +124,23 @@ the rendering io code. It serves
 
 ;;;; Input
 (define (do-input world)
-  (case (read-char)
+  (define c (read-char))
+  (case c
     [(#f)  (set-world-status! world "No Key")]
     [(#\q) (begin (stty "sane") (end-screen) (exit))]
-    [(#\h) (move-cursor world -1 0)]
-    [(#\j) (move-cursor world 0 1)]
-    [(#\k) (move-cursor world 0 -1)]
-    [(#\l) (move-cursor world 1 0)]
+    [(#\h #\j #\k #\l) (move-world world c)]
     [(#\c) (set-world-selection! world #f)]
     [(#\tab) (incmenu world)]
     [(#\return) (do-option world)]
     [(#\space) (do-selection world)]
     [else (set-world-status! world "Not a keybinding")]))
 
+(define (move-world world char)
+  (case char
+    [(#\h) (move-cursor world -1 0)]
+    [(#\j) (move-cursor world 0 1)]
+    [(#\k) (move-cursor world 0 -1)]
+    [(#\l) (move-cursor world 1 0)]))
 (define (move-cursor world x y)
   (set-world-cur-x! world (max 0 (+ x (world-cur-x world))))
   (set-world-cur-y! world (max 0 (+ y (world-cur-y world)))))
