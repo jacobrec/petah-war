@@ -22,9 +22,14 @@
 (define (host-game id)
   (unless (directory-exists? gamedir)
     (make-directory gamedir))
-  (unix-socket-accept
+  (define sock
     (unix-socket-listen
-      (gameid->path id))))
+      (gameid->path id)))
+  (plumber-add-flush!
+    (current-plumber)
+    (lambda (_)
+      (delete-game id)))
+  (unix-socket-accept sock))
 
 (define (join-game code)
   (unix-socket-connect (gameid->path code)))
