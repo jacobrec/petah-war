@@ -9,9 +9,9 @@
     [(= tunit UNIT_INFANTRY) 8]
     [(= tunit UNIT_TANK) 10]
 
-    [(= tunit UNIT_PLANE) 7]
-    [(= tunit UNIT_BOMBER) 5]
-    [(= tunit UNIT_HELICOPTER) 6]
+    [(= tunit UNIT_PLANE) 10]
+    [(= tunit UNIT_BOMBER) 7]
+    [(= tunit UNIT_HELICOPTER) 9]
 
     [(= tunit UNIT_DESTROYER) 5]
     [(= tunit UNIT_FERRY) 6]
