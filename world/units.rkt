@@ -57,10 +57,14 @@
                  (= (building-y bld) (world-cur-y world)))
         (set! done #t)
         (set-building-owner-id! bld (unit-owner-id unit))))
+    (set-unit-has-moved! unit #t)
+    (set-unit-x! unit x)
+    (set-unit-y! unit y)
     (set-world-selection! world #f)
     (set-world-menu! world #f))
   (when (eq? opt 'attack)
     (set-world-directional-select! world 'left)))
+  #f)
 
 (define (unit-do-direction unit option)
   (define opt (option-menu-pick->option-symbol unit option))
@@ -72,11 +76,3 @@
     (set-world-selection! world #f)
     (set-world-menu! world #f)
     (set-world-directional-select! world #f)))
-
-
-
-
-
-
-
-
