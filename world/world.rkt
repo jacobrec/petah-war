@@ -13,72 +13,6 @@
                selection
                cur-x cur-y) #:mutable)
 
-(define (make-world width height)
-  (define wo (world (make-vector
-                      (* width height)
-                      TILE_WATER)
-                    (make-vector
-                      (* width height)
-                      DFT)
-                    ""                  ; Status
-                    (list)
-                    width height
-                    #f
-                    0 0))               ; cur-x cur-y
-  (temp-setup wo))
-
-(define (temp-setup w)
-  (set-world-units! w (list (unit 25 11 UNIT_INFANTRY)
-                            (unit 25 12 UNIT_TANK)
-                            (unit 25 10 UNIT_PLANE)
-                            (unit 8 6 UNIT_FERRY)
-                            (unit 3 2 UNIT_DESTROYER)))
-  (temp-add-island w)
-  (temp-add-tile-set w
-                 '((26 . 11)
-                   (27 . 11)
-                   (27 . 12)
-                   (28 . 12)
-                   (28 . 13)
-                   (26 . 10))
-                 TILE_MOUNTAIN)
-  (temp-add-tile-set w
-                 '((24 . 11)
-                   (23 . 11)
-                   (23 . 12)
-                   (22 . 12)
-                   (22 . 13)
-                   (24 . 10))
-                 TILE_FOREST)
-  (temp-add-tile-set w
-                 '((25 . 10)
-                   (25 . 11)
-                   (25 . 12)
-                   (25 . 13)
-                   (25 . 14)
-                   (25 . 15)
-                   (25 . 16))
-                 TILE_ROAD))
-
-(define (temp-add-tile-set world items tile)
-  (for ([item items])
-    (temp-add-tile world (car item) (cdr item) tile))
-  world)
-
-(define (temp-add-tile world x y tile)
-  (vector-set! (world-grid world)
-               (+ x (* y (world-width world)))
-               tile)
-  world)
-
-(define (temp-add-island world)
-  (for ([x (range 30)])
-    (for ([y (range 15)])
-      (vector-set! (world-grid world)
-                   (+ 10 x (* (+ y 5) (world-width world)))
-                   TILE_GRASS)))
-  world)
-
 (define (check-unit-hover world)
   (set-world-bg-overlay! world (make-vector
                                  (* (world-width world)
@@ -120,6 +54,15 @@
 
 (define (do-selection world)
   (define selected #f)
+  (when (and (world-selection world)
+             (unit? (world-selection world)))
+    (define x (world-cur-x world))
+    (define y (world-cur-y world))
+    (define w (world-width world))
+    (when (= CYN (vector-ref (world-bg-overlay world) (+ x (* y w))))
+      (set-unit-x! (world-selection world) x)
+      (set-unit-y! (world-selection world) y))
+    (set! selected #t))
   (for ([u (world-units world)])
     (when (and (not selected)
                (= (world-cur-x world) (unit-x u))
