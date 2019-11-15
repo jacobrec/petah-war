@@ -34,6 +34,7 @@
                             (unit 8 6 2 UNIT_FERRY)
                             (unit 3 2 2 UNIT_DESTROYER)))
   (set-world-buildings! w (list (building 10 10 1 BUILD_HQ)
+                                (building 13 13 2 BUILD_HQ)
                                 (building 11 11 1 BUILD_FACTORY)
                                 (building 11 12 2 BUILD_FACTORY)
                                 (building 9 12 1 BUILD_SEAFACTORY)))
