@@ -64,9 +64,24 @@
       (displayln "YOU LOSE!"))
     (exit)))
 
+(define (get-money world)
+  (set-world-money!
+    world
+    (apply + (world-money world)
+           (map (lambda (_) 500)
+                  (filter
+                    (lambda (b)
+                      (and (= (building-type b) BUILD_MONEY)
+                           (= (building-owner-id b) (world-player-id world))))
+                    (world-buildings world))))))
+
+
+
+
 (define (do-game world out in first)
   (define (loop)
     (set-world-status! world "Your Turn!")
+    (get-money world)
     (start-input-loop world)
     (send-turn world out)
     (set-world-status! world "Waiting for opponent(s)")
