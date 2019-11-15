@@ -41,6 +41,22 @@ the rendering io code. It serves
     [(= unit UNIT_BOMBER) (cell DFT bg #\B)]
     [(= unit UNIT_HELICOPTER) (cell DFT bg #\H)]))
 
+(define (overlay-unit world u)
+  (define cell (get-cell-from-unittype (unit-type u) RED))
+  (define fg (cell-fg cell))
+  (define bg (cell-bg cell))
+  (define char (cell-char cell))
+  (define dbg (cell-bg (get-cell-from-tiletype
+                         (vector-ref
+                           (world-grid world)
+                           (+ (unit-x u) (* (unit-y u) (world-width world)))))))
+  (when (unit-has-moved u)
+    (set! fg bg)
+    (set! bg DFT))
+  (screen-buffer-set-pixel! sb
+    (unit-x u) (unit-y u)
+    fg (if (= DFT bg) dbg bg) char))
+
 (define (draw-world world)
   ;; Set Buffer data from map
   (for [(y (range (world-height world)))]
@@ -60,11 +76,7 @@ the rendering io code. It serves
 
   ;; Set Buffer data from movables
   (for ([u (world-units world)])
-    (define cell (get-cell-from-unittype (unit-type u) RED))
-    (screen-buffer-set-pixel! sb
-      (unit-x u) (unit-y u)
-      (cell-fg cell) (cell-bg cell)
-      (cell-char cell)))
+    (overlay-unit world u))
 
   (cursor-set #f)
   (draw-buffer sb)
