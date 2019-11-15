@@ -150,6 +150,7 @@ the rendering io code. It serves
     [(#\q) (begin (stty "sane") (end-screen) (exit))]
     [(#\h #\j #\k #\l) (move-motion world c)]
     [(#\c) (set-world-selection! world #f)
+           (set-world-directional-select! world #f)
            (set-world-menu! world #f)]
     [(#\e) (brk)]
     [(#\tab) (incmenu world)]
