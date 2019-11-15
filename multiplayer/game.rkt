@@ -19,7 +19,9 @@
 
 (define (do-game world out in)
   (define (loop)
-    (receive-turn world in)
     (send-turn world out)
+    (set-world-status! world "Waiting for opponent(s)")
+    (receive-turn world in)
+    (set-world-status! world "Your Turn!")
     (loop))
   (loop))
