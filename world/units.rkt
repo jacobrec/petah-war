@@ -44,9 +44,10 @@
 
 
 (define (unit-do world unit option)
+  (define opt (option-menu-pick->option-symbol unit option))
   (define x (world-cur-x world))
   (define y (world-cur-y world))
-  (when (= option 1)
+  (when (eq? opt 'wait)
     (set-unit-has-moved! unit #t)
     (set-unit-x! unit x)
     (set-unit-y! unit y))
